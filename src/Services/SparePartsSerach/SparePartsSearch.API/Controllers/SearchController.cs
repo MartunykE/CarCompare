@@ -17,19 +17,20 @@ namespace SparePartsSearch.API.Controllers
             this.searchService = searchService;
         }
        
+        //TODO: how part name from two words
 
-        [HttpGet("{partName}")]
-        public IActionResult GetSparePartPrice(string partName, [FromBody]string[] carCharacteristics)
+        [HttpGet("{partName}/{carCharacteristics}")]
+        public IActionResult GetSparePartPrice(string partName, string carCharacteristics)
         {
-            try
+            //try
             {
                 var sparePart = searchService.FindSparePartPrice(partName, carCharacteristics);
                 return Ok(sparePart);
             }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            //catch (Exception ex)
+            //{
+            //    return NotFound(ex.Message);
+            //}
         }
 
         //[HttpGet]

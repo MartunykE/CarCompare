@@ -8,6 +8,6 @@ namespace SparePartsSearch.API.Services.Abstractions
 {
     public interface ISearchService
     {
-        public SparePartPrices FindSparePartPrice(string sparePartName, string[] carCharacteristics);
+        public SparePartPrices FindSparePartPrice(string sparePartName, string carCharacteristics);
     }
 }
