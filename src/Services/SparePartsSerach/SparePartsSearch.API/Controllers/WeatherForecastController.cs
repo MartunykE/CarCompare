@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,6 +35,14 @@ namespace SparePartsSearch.API.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpGet("2")]
+        public string  Get2()
+        {
+            
+            //var result = httpClient.GetAsync("https://localhost:44345/api/User/ggg");
+            //var res = result.Content.ReadAsStringAsync();
+            return "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq";
         }
     }
 }

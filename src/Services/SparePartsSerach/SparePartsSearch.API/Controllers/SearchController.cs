@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SparePartsSearch.API.Controllers
 {
     [ApiController]
-    [Route("/api/[controller]")]
+    [Route("[controller]")]
     public class SearchController : ControllerBase
     {
         ISearchService searchService;
@@ -19,25 +19,26 @@ namespace SparePartsSearch.API.Controllers
        
         //TODO: how part name from two words
 
+
         [HttpGet("{partName}/{carCharacteristics}")]
         public IActionResult GetSparePartPrice(string partName, string carCharacteristics)
         {
-            //try
+            try
             {
                 var sparePart = searchService.FindSparePartPrice(partName, carCharacteristics);
                 return Ok(sparePart);
             }
-            //catch (Exception ex)
-            //{
-            //    return NotFound(ex.Message);
-            //}
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-        //[HttpGet]
-        //public IActionResult GetSpareParts()
-        //{
-
-        //}
+        [HttpGet]
+        public IActionResult GetSpareParts()
+        {
+            return Ok("search contr");
+        }
 
 
     }

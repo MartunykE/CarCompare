@@ -2,6 +2,7 @@
 using SparePartsSearch.API.Services.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,10 +18,10 @@ namespace SparePartsSearch.API.Services
         {
             var googleHtml = GetGoogleHtml(sparePartName, carCharacteristics);
 
-            //using (StreamWriter streamWriter = new StreamWriter("google.html"))
-            //{
-            //    streamWriter.WriteLine(googleHtml);
-            //}
+            using (StreamWriter streamWriter = new StreamWriter("google.html"))
+            {
+                streamWriter.WriteLine(googleHtml);
+            }
 
             var prices = GetPricesFromGoogleHtml(googleHtml, sparePartName);
 
@@ -137,7 +138,9 @@ namespace SparePartsSearch.API.Services
             var endPriceIndex = span.IndexOf('&');
             var price = span.Remove(endPriceIndex);
 
-            var parsed = double.TryParse(price, out double parseResult);
+            var formatter = new NumberFormatInfo { NumberDecimalSeparator = "," };
+
+            var parsed = double.TryParse(price, NumberStyles.Float, formatter, out double parseResult);
             //if (!parsed && parseResult <= 0)
             //{
             //    throw new Exception($"Can`t find price in string: {priceString}");
