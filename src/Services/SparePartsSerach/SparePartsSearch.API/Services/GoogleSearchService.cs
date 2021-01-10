@@ -14,7 +14,7 @@ namespace SparePartsSearch.API.Services
 {
     public class GoogleSearchService : ISearchService
     {
-        public SparePartPrices FindSparePartPrice(string sparePartName, string carCharacteristics)
+        public Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
         {
             var googleHtml = GetGoogleHtml(sparePartName, carCharacteristics);
 
@@ -33,7 +33,7 @@ namespace SparePartsSearch.API.Services
                 AveragePrice = prices.Average()
             };
 
-            return sparePartPrices;
+            return Task.FromResult(sparePartPrices);
         }
 
         private string GetGoogleHtml(string sparePartName, string carCharacteristics)
