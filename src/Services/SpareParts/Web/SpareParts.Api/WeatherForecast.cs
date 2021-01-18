@@ -1,6 +1,6 @@
 using System;
 
-namespace SpareParts.API
+namespace SpareParts.Api
 {
     public class WeatherForecast
     {
