@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using SpareParts.Application.Interfaces;
 
 namespace SpareParts.Api.Controllers
 {
@@ -17,23 +19,22 @@ namespace SpareParts.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ISparePartsDbContext sparePartsDbContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ISparePartsDbContext sparePartsDbContext)
         {
             _logger = logger;
+            this.sparePartsDbContext = sparePartsDbContext;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<SpareParts.Domain.Models.SparePart> Get( )
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            sparePartsDbContext.Vehicles.InsertOne(new Domain.Models.SparePart() { Id = 1, Name = "piter" });
+            var a = sparePartsDbContext.Vehicles.Find((car) => true).ToList();
+            return a;
         }
+
+        
     }
 }

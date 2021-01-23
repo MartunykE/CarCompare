@@ -10,7 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using SpareParts.Application;
+using SpareParts.Persistence;
 namespace SpareParts.Api
 {
     public class Startup
@@ -25,6 +26,8 @@ namespace SpareParts.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplication();
+            services.AddPersistance(Configuration);
             services.AddControllers();
         }
 
