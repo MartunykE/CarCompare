@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -19,20 +20,18 @@ namespace SpareParts.Api.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly ISparePartsDbContext sparePartsDbContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ISparePartsDbContext sparePartsDbContext)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {
             _logger = logger;
-            this.sparePartsDbContext = sparePartsDbContext;
         }
 
         [HttpGet]
-        public IEnumerable<SpareParts.Domain.Models.SparePart> Get( )
+        public async Task<string> Get( )
         {
-            sparePartsDbContext.Vehicles.InsertOne(new Domain.Models.SparePart() { Id = 1, Name = "piter" });
-            var a = sparePartsDbContext.Vehicles.Find((car) => true).ToList();
-            return a;
+            var httpClient = new HttpClient();
+            var result = await httpClient.GetAsync("http://sparepartssearch.api:80/search/трос ручного тормоза/Ford foucs 3");
+            return await result.Content.ReadAsStringAsync() + " From Onion";
         }
 
         

@@ -17,8 +17,8 @@ namespace SparePartsSearch.API.Services
         private string searchEngineId = "3d995c346c46c7cf8";
         public async Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
         {
-            await Run();
-            return new SparePartPrices();
+            //await Run();
+            return new SparePartPrices() { Name = "2", AveragePrice = 200 };
         }
 
         public async Task Run()

@@ -4,6 +4,7 @@ services:
   cars.api:
     image: ${DOCKER_REGISTRY-}carsapi
     environment:
+    - SparepartsApiURL=http://spareparts.api
     - SparepartsSearchURL=http://sparepartssearch.api 
         
     build:
@@ -17,4 +18,14 @@ services:
     build:
       context: .
       dockerfile: src\Services\SparePartsSerach\SparePartsSearch.API\Dockerfile
+
+
+  spareparts.api:
+    image: ${DOCKER_REGISTRY-}sparepartsapi
+    environment:
+    - SparepartsSearchURL=http://sparepartssearch.api 
+
+    build:
+      context: .
+      dockerfile: src\Services\SpareParts\Web\SpareParts.Api\Dockerfile
 
