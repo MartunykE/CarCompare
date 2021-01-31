@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
+using SpareParts.Application.Interfaces;
 
 namespace SpareParts.Api.Controllers
 {
@@ -24,16 +27,13 @@ namespace SpareParts.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<string> Get( )
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var httpClient = new HttpClient();
+            var result = await httpClient.GetAsync("http://sparepartssearch.api:80/search/трос ручного тормоза/Ford foucs 3");
+            return await result.Content.ReadAsStringAsync() + " From Onion";
         }
+
+        
     }
 }

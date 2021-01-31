@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SpareParts.Application": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

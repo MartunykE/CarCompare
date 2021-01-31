@@ -39,7 +39,7 @@ namespace Cars.API.Controllers
             return "get";
         }
         [HttpGet("get2")]
-        public  string Get2()
+        public async Task<string> Get2()
         {
 
             HttpClient httpClient = new HttpClient();
@@ -50,13 +50,16 @@ namespace Cars.API.Controllers
             //var result = httpClient.GetAsync("http://sparepartssearch.api:80/search");
 
 
-            var result = httpClient.GetAsync("http://sparepartssearch.api:80/search/трос ручного тормоза/Ford foucs 3");
+            //var result = await httpClient.GetAsync("http://sparepartssearch.api:80/search/трос ручного тормоза/Ford foucs 3");
+            var result2 = await httpClient.GetAsync("http://spareparts.api:80/WeatherForecast");
 
+            //var res = await result.Content.ReadAsStringAsync() + "-------- " + await result2.Content.ReadAsStringAsync();
 
             //var result = httpClient.GetAsync("http://localhost:4441/weatherforecast");
             //var result = httpClient.GetAsync("https://localhost:44345/api/User/ggg");
-            //var res = result.Content.ReadAsStringAsync();
-            return result.Result.Content.ReadAsStringAsync().Result;
+            var res = await result2.Content.ReadAsStringAsync();
+            
+            return res;
         }
 
     }
