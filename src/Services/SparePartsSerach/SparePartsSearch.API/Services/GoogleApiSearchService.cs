@@ -15,8 +15,8 @@ namespace SparePartsSearch.API.Services
 {
     public class GoogleApiSearchService : ISearchService
     {
-        private string apiKey = "";
-        private string searchEngineId = "";
+        private string apiKey;
+        private string searchEngineId;
 
         public GoogleApiSearchService(string googeApiKey, string googleSearchEngineId)
         {
