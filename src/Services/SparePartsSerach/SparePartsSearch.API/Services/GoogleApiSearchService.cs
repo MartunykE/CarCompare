@@ -13,8 +13,8 @@ namespace SparePartsSearch.API.Services
 {
     public class GoogleApiSearchService : ISearchService
     {
-        private string apiKey = "AIzaSyADW4f_Hk9G5wYZp3r6ThEXuvXz1rAYr4A";
-        private string searchEngineId = "3d995c346c46c7cf8";
+        private string apiKey = "";
+        private string searchEngineId = "";
         public async Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
         {
             //await Run();
