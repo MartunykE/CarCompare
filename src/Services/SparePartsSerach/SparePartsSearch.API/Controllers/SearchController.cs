@@ -21,11 +21,11 @@ namespace SparePartsSearch.API.Controllers
 
 
         [HttpGet("{partName}/{carCharacteristics}")]
-        public IActionResult GetSparePartPrice(string partName, string carCharacteristics)
+        public async Task<IActionResult> GetSparePartPrice(string partName, string carCharacteristics)
         {
             try
             {
-                var sparePart = searchService.FindSparePartPrice(partName, carCharacteristics);
+                var sparePart = await searchService.FindSparePartPrice(partName, carCharacteristics);
                 return Ok(sparePart);
             }
             catch (KeyNotFoundException ex)

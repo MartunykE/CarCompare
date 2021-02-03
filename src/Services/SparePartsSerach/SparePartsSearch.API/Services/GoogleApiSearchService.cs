@@ -8,20 +8,34 @@ using System.Diagnostics;
 using Google.Apis.Services;
 using Google.Apis.Customsearch.v1;
 using Google.Apis.Customsearch.v1.Data;
+using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SparePartsSearch.API.Services
 {
     public class GoogleApiSearchService : ISearchService
     {
-        private string apiKey = "AIzaSyADW4f_Hk9G5wYZp3r6ThEXuvXz1rAYr4A";
-        private string searchEngineId = "3d995c346c46c7cf8";
-        public async Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
+        private string apiKey = "";
+        private string searchEngineId = "";
+
+        public GoogleApiSearchService(string googeApiKey, string googleSearchEngineId)
         {
-            //await Run();
-            return new SparePartPrices() { Name = "2", AveragePrice = 200 };
+            apiKey = googeApiKey;
+            searchEngineId = googleSearchEngineId;
         }
 
-        public async Task Run()
+        public async Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
+        {
+            var response = await GetGoogleSearchResponse(sparePartName, carCharacteristics);
+            var price = await GetPricesFromSearch(response);
+            return new SparePartPrices
+            {
+                Name = sparePartName,
+                Price = price
+            };
+        }
+
+        private async Task<Search> GetGoogleSearchResponse(string sparePartName, string carCharacteristics)
         {
             var searchService = new CustomsearchService(new BaseClientService.Initializer
             {
@@ -29,19 +43,60 @@ namespace SparePartsSearch.API.Services
             });
 
             CseResource.ListRequest listRequest = searchService.Cse.List();
-            listRequest.Q = "трос ручного тормоза ford focus 3";
+            listRequest.Q = $"{sparePartName} {carCharacteristics}";
             listRequest.Cx = searchEngineId;
 
-            Search search = await listRequest.ExecuteAsync();
+            return await listRequest.ExecuteAsync();           
+        }
 
+        private async Task<Price> GetPricesFromSearch(Search search)
+        {
+            var highPrices = new List<double>();
+            var lowPrices = new List<double>();
+            string currency = "";
             foreach (var item in search.Items)
             {
-                foreach (var pagemap in item.Pagemap)
+                var priceNodeName = "aggregateoffer";
+
+                var priceNode = item.Pagemap.FirstOrDefault(p => p.Key == priceNodeName);
+
+                if (priceNode.Value != null)
                 {
-                    Debug.WriteLine(pagemap);
-                }
+                    var priceNodeArray = JArray.Parse(priceNode.Value.ToString()).Children().FirstOrDefault();
+                    var priceNodeCurrency = priceNodeArray["pricecurrency"].ToString();
+                    
+                    if (string.IsNullOrEmpty(currency))
+                    {
+                        currency = priceNodeCurrency;
+                    }
+
+                    if (currency == priceNodeCurrency)
+                    {
+                        highPrices.Add((double)priceNodeArray["highprice"]);
+                        lowPrices.Add((double)priceNodeArray["lowprice"]);
+                    }
+                }               
             }
 
+            return CreatedPrice(highPrices, lowPrices, currency);
+
+        } 
+
+        private Price CreatedPrice(IEnumerable<double> highPrices, IEnumerable<double> lowPrices, string currency)
+        {
+            var maxPrice = highPrices.Max();
+            var minPrice = lowPrices.Min();
+            var averagePrice = (maxPrice + minPrice) / 2;
+
+            return new Price
+            {
+                MaxPrice = maxPrice,
+                MinPrice = minPrice,
+                AveragePrice = averagePrice
+            };
         }
+
+
+
     }
 }

@@ -27,7 +27,8 @@ namespace SparePartsSearch.API
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddTransient<ISearchService, GoogleSearchService>();
-            services.AddTransient<ISearchService, GoogleApiSearchService>();
+            services.AddTransient<ISearchService, GoogleApiSearchService>(options => 
+                new GoogleApiSearchService(Configuration.GetSection("GoogleSearcApiKey").Value, Configuration.GetSection("searchEngineId").Value));
             services.AddControllers();
         }
 

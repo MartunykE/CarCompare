@@ -27,10 +27,7 @@ namespace SparePartsSearch.API.Services
 
             SparePartPrices sparePartPrices = new SparePartPrices
             {
-                Name = sparePartName,
-                MaxPrice = prices.Max(),
-                MinPrice = prices.Min(),
-                AveragePrice = prices.Average()
+                Name = sparePartName               
             };
 
             return Task.FromResult(sparePartPrices);
