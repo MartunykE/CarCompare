@@ -26,9 +26,13 @@ namespace SparePartsSearch.API.Controllers
             try
             {
                 var sparePart = await searchService.FindSparePartPrice(partName, carCharacteristics);
+                if (sparePart == null)
+                {
+                    return NotFound($"Prices for {partName} {carCharacteristics} wasn`t found");
+                }
                 return Ok(sparePart);
             }
-            catch (KeyNotFoundException ex)
+            catch (ArgumentNullException ex)
             {
                 return NotFound(ex.Message);
             }

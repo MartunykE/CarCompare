@@ -10,6 +10,7 @@ using Google.Apis.Customsearch.v1;
 using Google.Apis.Customsearch.v1.Data;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Google.Apis.Util;
 
 namespace SparePartsSearch.API.Services
 {
@@ -27,6 +28,7 @@ namespace SparePartsSearch.API.Services
         public async Task<SparePartPrices> FindSparePartPrice(string sparePartName, string carCharacteristics)
         {
             var response = await GetGoogleSearchResponse(sparePartName, carCharacteristics);
+            response.ThrowIfNull($"{sparePartName} {carCharacteristics}");
             var price = await GetPricesFromSearch(response);
             return new SparePartPrices
             {
