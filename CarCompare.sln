@@ -25,13 +25,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpareParts.Infrastructure",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpareParts.Web", "SpareParts.Web", "{EBC9242E-67C7-46DA-93AC-9D54C1828EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpareParts.Domain", "src\Services\SpareParts\Domain\SpareParts.Domain\SpareParts.Domain.csproj", "{94E7C3C5-7A04-47F5-BE8D-F093A68A95D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpareParts.Domain", "src\Services\SpareParts\Domain\SpareParts.Domain\SpareParts.Domain.csproj", "{94E7C3C5-7A04-47F5-BE8D-F093A68A95D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpareParts.Application", "src\Services\SpareParts\Domain\SpareParts.Application\SpareParts.Application.csproj", "{BC26373A-8252-4852-B2F8-AF6821165363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpareParts.Application", "src\Services\SpareParts\Domain\SpareParts.Application\SpareParts.Application.csproj", "{BC26373A-8252-4852-B2F8-AF6821165363}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpareParts.Persistence", "src\Services\SpareParts\Infrastructure\SpareParts.Persistence\SpareParts.Persistence.csproj", "{30B76536-8BAD-45DC-BFF6-FFEFA1413646}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpareParts.Persistence", "src\Services\SpareParts\Infrastructure\SpareParts.Persistence\SpareParts.Persistence.csproj", "{30B76536-8BAD-45DC-BFF6-FFEFA1413646}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpareParts.Api", "src\Services\SpareParts\Web\SpareParts.Api\SpareParts.Api.csproj", "{D1FC0129-1CF4-49D5-BF72-071051DBC2F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpareParts.Api", "src\Services\SpareParts\Web\SpareParts.Api\SpareParts.Api.csproj", "{D1FC0129-1CF4-49D5-BF72-071051DBC2F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventBus", "EventBus", "{F81EEACC-3966-499F-9B3D-CAD9A39E2AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus.Abstractions", "src\EventBus\EventBus.Abstractions\EventBus.Abstractions.csproj", "{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBusRabbitMQ", "src\EventBus\EventBusRabbitMQ\EventBusRabbitMQ.csproj", "{23C0598B-E671-4BFF-BDAE-2A949228864D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +73,14 @@ Global
 		{D1FC0129-1CF4-49D5-BF72-071051DBC2F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1FC0129-1CF4-49D5-BF72-071051DBC2F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1FC0129-1CF4-49D5-BF72-071051DBC2F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C0598B-E671-4BFF-BDAE-2A949228864D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C0598B-E671-4BFF-BDAE-2A949228864D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C0598B-E671-4BFF-BDAE-2A949228864D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C0598B-E671-4BFF-BDAE-2A949228864D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +99,9 @@ Global
 		{BC26373A-8252-4852-B2F8-AF6821165363} = {68738714-D8FE-4DB8-B012-99EAE10FA592}
 		{30B76536-8BAD-45DC-BFF6-FFEFA1413646} = {79B31E18-3417-4100-B823-AAB831DD3FDB}
 		{D1FC0129-1CF4-49D5-BF72-071051DBC2F6} = {EBC9242E-67C7-46DA-93AC-9D54C1828EDC}
+		{F81EEACC-3966-499F-9B3D-CAD9A39E2AC6} = {6C247BFF-20DA-424D-B183-EA75200DBCD9}
+		{69283C6E-D4DB-4D27-B3D9-D166CFE9A3EE} = {F81EEACC-3966-499F-9B3D-CAD9A39E2AC6}
+		{23C0598B-E671-4BFF-BDAE-2A949228864D} = {F81EEACC-3966-499F-9B3D-CAD9A39E2AC6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8D47960-FEC9-4C79-A858-85C645C2F7A4}
