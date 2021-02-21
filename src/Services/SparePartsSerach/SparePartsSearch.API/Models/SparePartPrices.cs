@@ -7,7 +7,8 @@ namespace SparePartsSearch.API.Models
 {
     public class SparePartPrices
     {        
-        public string Name { get; set; }
-        public Price Price{ get; set; }
+        public double MinPrice { get; set; }
+        public double MaxPrice { get; set; }
+        public double AveragePrice { get; set; }
     }
 }

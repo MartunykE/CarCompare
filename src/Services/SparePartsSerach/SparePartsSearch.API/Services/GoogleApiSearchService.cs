@@ -29,12 +29,8 @@ namespace SparePartsSearch.API.Services
         {
             var response = await GetGoogleSearchResponse(sparePartName, carCharacteristics);
             response.ThrowIfNull($"{sparePartName} {carCharacteristics}");
-            var price = await GetPricesFromSearch(response);
-            return new SparePartPrices
-            {
-                Name = sparePartName,
-                Price = price
-            };
+            return await GetPricesFromSearch(response);
+           
         }
 
         private async Task<Search> GetGoogleSearchResponse(string sparePartName, string carCharacteristics)
@@ -51,7 +47,7 @@ namespace SparePartsSearch.API.Services
             return await listRequest.ExecuteAsync();           
         }
 
-        private async Task<Price> GetPricesFromSearch(Search search)
+        private async Task<SparePartPrices> GetPricesFromSearch(Search search)
         {
             var highPrices = new List<double>();
             var lowPrices = new List<double>();
@@ -84,13 +80,13 @@ namespace SparePartsSearch.API.Services
 
         } 
 
-        private Price CreatedPrice(IEnumerable<double> highPrices, IEnumerable<double> lowPrices, string currency)
+        private SparePartPrices CreatedPrice(IEnumerable<double> highPrices, IEnumerable<double> lowPrices, string currency)
         {
             var maxPrice = highPrices.Max();
             var minPrice = lowPrices.Min();
             var averagePrice = (maxPrice + minPrice) / 2;
 
-            return new Price
+            return new SparePartPrices
             {
                 MaxPrice = maxPrice,
                 MinPrice = minPrice,
