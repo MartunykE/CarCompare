@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SpareParts.Domain.Models
+namespace SpareParts.Domain.Models.VehicleTechSpecification
 {
-    public class SparePart
+    public class GearBox
     {
         [BsonId]
         public int Id { get; set; }
         public string Name { get; set; }
-        public SparePartPrices Prices { get; set; }
+        public string GearBoxType { get; set; }
+        public int GearsCount { get; set; }
+
     }
 }
