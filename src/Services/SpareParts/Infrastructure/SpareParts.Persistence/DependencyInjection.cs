@@ -11,8 +11,7 @@ namespace SpareParts.Persistence
     {
         public static void AddPersistance(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            //if not working try configuration.ConnectionString[]
-            string dbConnectionString = configuration.GetConnectionString("SparePartsDb");
+            string dbConnectionString = configuration.GetConnectionString("VehicleSparePartsDb");
             
             serviceCollection.AddTransient<ISparePartsDbContext, SparePartsDbContext>(
                 provider => new SparePartsDbContext(dbConnectionString));

@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using SpareParts.Application.Interfaces;
 using SpareParts.Domain.Models;
+using SpareParts.Domain.Models.VehicleTechSpecification;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,13 +14,13 @@ namespace SpareParts.Persistence.SparePartsContext
         private readonly IMongoDatabase database;
         public SparePartsDbContext(string connectionString)
         {
-            var connection = new MongoUrlBuilder(connectionString);
             var client = new MongoClient(connectionString);
-            database = client.GetDatabase("SparePartsDb");
+            database = client.GetDatabase("VehicleSparePartsDb");
         }
 
-        public IMongoCollection<SparePart> Vehicles => database.GetCollection<SparePart>("SpareParts");
+        public IMongoCollection<Vehicle> Vehicles => database.GetCollection<Vehicle>("Vehicles");
+        public IMongoCollection<VehicleTechSpecification> VehicleTechSpecifications =>
+            database.GetCollection<VehicleTechSpecification>("VehicleTechSpecifications") ;
 
-      
     }
 }
