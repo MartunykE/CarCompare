@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EventBus.Abstractions.Events;
+using System.Threading.Tasks;
 
 namespace EventBus.Abstractions
 {
-    public interface IIntegrationEventHandler
+    public interface IIntegrationEventHandler <T> where T: IntegrationEvent
     {
+        Task Handle(T @event);
     }
 }
