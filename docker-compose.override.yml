@@ -13,12 +13,19 @@ services:
     ports:
       - "81:80"
 
-
   spareparts.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development     
+      - SPARE_PARTS_EVENT_BUS_CONNECTION=localhost:5672
+      - SPARE_PARTS_EVENT_BUS_USERNAME=guest
+      - SPARE_PARTS_EVENT_BUS_PASSWORD=guest
     ports:
       - "82:80"
-      - "443"
-    volumes:
-      - ${APPDATA}/ASP.NET/Https:C:\Users\ContainerUser\AppData\Roaming\ASP.NET\Https:ro
+      
+
+
+  rabbitmq:
+    ports:
+    - "15672:15672"
+    - "5672:5672"
+  

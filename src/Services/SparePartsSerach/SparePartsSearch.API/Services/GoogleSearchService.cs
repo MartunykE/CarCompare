@@ -27,7 +27,7 @@ namespace SparePartsSearch.API.Services
 
             SparePartPrices sparePartPrices = new SparePartPrices
             {
-                Name = sparePartName               
+                AveragePrice = 5             
             };
 
             return Task.FromResult(sparePartPrices);

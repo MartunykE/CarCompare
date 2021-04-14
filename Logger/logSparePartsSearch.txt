@@ -1,0 +1,39 @@
+2021-04-12 21:31:50.478 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-12 21:31:50.710 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-12 21:31:50.846 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-12 21:31:50.848 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-12 21:31:50.849 +03:00 [INF] Hosting environment: Development
+2021-04-12 21:31:50.850 +03:00 [INF] Content root path: C:\app
+2021-04-14 09:34:18.932 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-14 09:34:45.773 +03:00 [WRN] Rabbit couldn`t connect after 20 None of the specified endpoints were reachable
+RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable
+ ---> System.AggregateException: One or more errors occurred. (Connection failed)
+ ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed
+ ---> System.TimeoutException: The operation has timed out.
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, TimeSpan timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingIPv4(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan connectionTimeout, TimeSpan readTimeout, TimeSpan writeTimeout)
+   at RabbitMQ.Client.Framing.Impl.IProtocolExtensions.CreateFrameHandler(IProtocol protocol, AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan connectionTimeout, TimeSpan readTimeout, TimeSpan writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection()
+   at EventBusRabbitMQ.RabbitMQPersistentConnection.<TryConnect>b__10_2() in C:\Users\realp\source\repos\CarCompare\src\EventBus\EventBusRabbitMQ\RabbitMQPersistentConnection.cs:line 79
+   at Polly.Policy.<>c__DisplayClass108_0.<Execute>b__0(Context ctx, CancellationToken ct)
+   at Polly.Policy.<>c__DisplayClass138_0.<Implementation>b__0(Context ctx, CancellationToken token)
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Action`4 onRetry, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider)
+2021-04-14 09:35:07.616 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-14 09:35:07.779 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-14 09:35:07.781 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-14 09:35:07.781 +03:00 [INF] Hosting environment: Development
+2021-04-14 09:35:07.781 +03:00 [INF] Content root path: C:\app

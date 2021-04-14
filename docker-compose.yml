@@ -1,6 +1,22 @@
 version: '3.4'
 
 services:
+
+  sparepartssearch.api:
+    image: ${DOCKER_REGISTRY-}sparepartssearchapi
+
+    build:
+      context: .
+      dockerfile: src\Services\SparePartsSerach\SparePartsSearch.API\Dockerfile
+    depends_on:
+    - rabbitmq
+    volumes:
+    - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
+  
+  rabbitmq:
+    image: micdenny/rabbitmq-windows
+    hostname: my-rabbit
+
   cars.api:
     image: ${DOCKER_REGISTRY-}carsapi
     environment:
@@ -10,22 +26,16 @@ services:
     build:
       context: .
       dockerfile: src\Services\Cars\Cars.API\Dockerfile
-    
-
-  sparepartssearch.api:
-    image: ${DOCKER_REGISTRY-}sparepartssearchapi
-
-    build:
-      context: .
-      dockerfile: src\Services\SparePartsSerach\SparePartsSearch.API\Dockerfile
-
 
   spareparts.api:
     image: ${DOCKER_REGISTRY-}sparepartsapi
     environment:
     - SparepartsSearchURL=http://sparepartssearch.api 
+    volumes:
+    - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
 
     build:
       context: .
       dockerfile: src\Services\SpareParts\Web\SpareParts.Api\Dockerfile
-
+    depends_on:
+    - rabbitmq

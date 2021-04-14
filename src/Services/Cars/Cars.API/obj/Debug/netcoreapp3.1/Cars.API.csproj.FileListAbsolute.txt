@@ -1,6 +1,5 @@
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\appsettings.json
-C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\Cars.API.exe
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\Cars.API.deps.json
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\Cars.API.runtimeconfig.json
@@ -63,3 +62,4 @@ C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netc
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\obj\Debug\netcoreapp3.1\Cars.API.csproj.CoreCompileInputs.cache
 C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\obj\Debug\netcoreapp3.1\Cars.API.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\realp\source\repos\CarCompare\src\Services\Cars\Cars.API\obj\Debug\netcoreapp3.1\scopedcss\bundle\Cars.API.styles.css

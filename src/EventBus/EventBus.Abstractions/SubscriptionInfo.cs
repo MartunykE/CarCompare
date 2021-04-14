@@ -18,5 +18,10 @@ namespace EventBus.Abstractions
             return new SubscriptionInfo(handlerType);
         }
 
+        public static SubscriptionInfo CreateTyped(Type handlerType)
+        {
+            return new SubscriptionInfo(handlerType);
+        }
+
     }
 }

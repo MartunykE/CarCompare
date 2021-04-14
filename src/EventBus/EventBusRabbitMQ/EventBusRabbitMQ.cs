@@ -56,13 +56,13 @@ namespace EventBusRabbitMQ
                     logger.LogWarning(ex, $"Cannot publish event: {@event.Id} Error: {ex.Message} ");
                 });
 
-            var eventName = @event.Id.GetType().Name;
+            var eventName = @event.GetType().Name;
 
             logger.LogTrace($"Creating RabbitMQ channel to publish event {@event.Id} {eventName}");
 
             using (var channel = persistentConnection.CreateModel())
             {
-                channel.ExchangeDeclare(exchange: BROKER_NAME, type: ExchangeType.Direct);
+                channel.ExchangeDeclare(exchange: BROKER_NAME, type: ExchangeType.Fanout);
                 var message = JsonConvert.SerializeObject(@event);
                 var body = Encoding.UTF8.GetBytes(message);
 
@@ -128,16 +128,16 @@ namespace EventBusRabbitMQ
 
             var channel = persistentConnection.CreateModel();
 
-            channel.ExchangeDeclare(exchange: BROKER_NAME, type: ExchangeType.Direct);
+            channel.ExchangeDeclare(exchange: BROKER_NAME, type: ExchangeType.Fanout);
 
             channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             channel.CallbackException += (sender, ex) =>
             {
                 logger.LogWarning(ex.Exception, "Recreatring RabbitMQ channel");
-
                 consumerChannel.Dispose();
                 consumerChannel = CreateConsumerChannel();
+                StartBasicConsume();
             };
 
             return channel;
@@ -153,14 +153,14 @@ namespace EventBusRabbitMQ
                 return;
             }
 
-            var consumer = new AsyncEventingBasicConsumer(consumerChannel);
+            var consumer = new EventingBasicConsumer(consumerChannel);
             consumer.Received += ConsumerReceivedHandler;
 
             consumerChannel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
 
         }
 
-        private async Task ConsumerReceivedHandler(object sender, BasicDeliverEventArgs eventArgs)
+        private void ConsumerReceivedHandler(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
             var message = Encoding.UTF8.GetString(eventArgs.Body.Span);
@@ -171,7 +171,7 @@ namespace EventBusRabbitMQ
                     throw new InvalidOperationException($"Fake exception requested {message}");
                 }
 
-                await ProcessEvent(eventName, message);
+                ProcessEvent(eventName, message);
             }
             catch (Exception ex)
             {
@@ -188,7 +188,7 @@ namespace EventBusRabbitMQ
 
             if (subscriptionManager.HasSubscritptionsForEvent(eventName))
             {
-                using(var scope  = autofac.BeginLifetimeScope())
+                using (var scope = autofac.BeginLifetimeScope())
                 {
                     var subscriptions = subscriptionManager.GetHandlersForEvent(eventName);
                     foreach (var subscription in subscriptions)

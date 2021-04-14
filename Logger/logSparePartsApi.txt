@@ -1,0 +1,78 @@
+2021-04-11 19:04:35.821 +03:00 [WRN] Start logger
+2021-04-11 19:07:07.741 +03:00 [WRN] Start logger
+2021-04-11 19:17:11.945 +03:00 [WRN] Start logger
+2021-04-11 19:22:51.792 +03:00 [WRN] Start logger
+2021-04-11 19:23:26.270 +03:00 [WRN] Start logger
+2021-04-11 19:25:43.947 +03:00 [WRN] Start logger
+2021-04-11 19:29:06.242 +03:00 [WRN] Start logger
+2021-04-11 19:41:56.561 +03:00 [WRN] Start logger
+2021-04-12 21:29:17.678 +03:00 [WRN] Start logger
+2021-04-12 21:29:20.284 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-12 21:29:21.771 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-12 21:29:22.779 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-12 21:29:22.781 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-12 21:29:22.781 +03:00 [INF] Hosting environment: Development
+2021-04-12 21:29:22.782 +03:00 [INF] Content root path: C:\app
+2021-04-12 21:29:35.734 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/weatherforecast/evt  
+2021-04-12 21:29:35.742 +03:00 [WRN] Failed to determine the https port for redirect.
+2021-04-12 21:29:35.770 +03:00 [INF] Executing endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-12 21:29:35.869 +03:00 [INF] Route matched with {action = "PostTestEvent", controller = "WeatherForecast"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.String] PostTestEvent() on controller SpareParts.Api.Controllers.WeatherForecastController (SpareParts.Api).
+2021-04-12 21:29:35.872 +03:00 [WRN] BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+2021-04-12 21:29:37.217 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2021-04-12 21:29:37.239 +03:00 [INF] Executed action SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api) in 1365.8232ms
+2021-04-12 21:29:37.242 +03:00 [INF] Executed endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-12 21:29:37.248 +03:00 [INF] Request finished in 1516.5ms 200 text/plain; charset=utf-8
+2021-04-12 21:29:37.286 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/favicon.ico  
+2021-04-12 21:29:37.287 +03:00 [INF] Request finished in 0.9366ms 404 
+2021-04-12 21:31:48.758 +03:00 [WRN] Start logger
+2021-04-12 21:31:50.435 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-12 21:31:50.602 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-12 21:31:50.808 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-12 21:31:50.810 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-12 21:31:50.811 +03:00 [INF] Hosting environment: Development
+2021-04-12 21:31:50.812 +03:00 [INF] Content root path: C:\app
+2021-04-14 09:34:12.546 +03:00 [WRN] Start logger
+2021-04-14 09:34:18.986 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-14 09:34:45.757 +03:00 [WRN] Rabbit couldn`t connect after 20 None of the specified endpoints were reachable
+RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified endpoints were reachable
+ ---> System.AggregateException: One or more errors occurred. (Connection failed)
+ ---> RabbitMQ.Client.Exceptions.ConnectFailureException: Connection failed
+ ---> System.TimeoutException: The operation has timed out.
+   at RabbitMQ.Client.Impl.TaskExtensions.TimeoutAfter(Task task, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, TimeSpan timeout)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectOrFail(ITcpClient socket, AmqpTcpEndpoint endpoint, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingAddressFamily(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan timeout, AddressFamily family)
+   at RabbitMQ.Client.Impl.SocketFrameHandler.ConnectUsingIPv4(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan timeout)
+   at RabbitMQ.Client.Impl.SocketFrameHandler..ctor(AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan connectionTimeout, TimeSpan readTimeout, TimeSpan writeTimeout)
+   at RabbitMQ.Client.Framing.Impl.IProtocolExtensions.CreateFrameHandler(IProtocol protocol, AmqpTcpEndpoint endpoint, Func`2 socketFactory, TimeSpan connectionTimeout, TimeSpan readTimeout, TimeSpan writeTimeout)
+   at RabbitMQ.Client.ConnectionFactory.CreateFrameHandler(AmqpTcpEndpoint endpoint)
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.EndpointResolverExtensions.SelectOne[T](IEndpointResolver resolver, Func`2 selector)
+   at RabbitMQ.Client.Framing.Impl.AutorecoveringConnection.Init(IEndpointResolver endpoints)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   --- End of inner exception stack trace ---
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(IEndpointResolver endpointResolver, String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection(String clientProvidedName)
+   at RabbitMQ.Client.ConnectionFactory.CreateConnection()
+   at EventBusRabbitMQ.RabbitMQPersistentConnection.<TryConnect>b__10_2() in C:\Users\realp\source\repos\CarCompare\src\EventBus\EventBusRabbitMQ\RabbitMQPersistentConnection.cs:line 79
+   at Polly.Policy.<>c__DisplayClass108_0.<Execute>b__0(Context ctx, CancellationToken ct)
+   at Polly.Policy.<>c__DisplayClass138_0.<Implementation>b__0(Context ctx, CancellationToken token)
+   at Polly.Retry.RetryEngine.Implementation[TResult](Func`3 action, Context context, CancellationToken cancellationToken, ExceptionPredicates shouldRetryExceptionPredicates, ResultPredicates`1 shouldRetryResultPredicates, Action`4 onRetry, Int32 permittedRetryCount, IEnumerable`1 sleepDurationsEnumerable, Func`4 sleepDurationProvider)
+2021-04-14 09:35:07.608 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-14 09:35:08.309 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-14 09:35:08.311 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-14 09:35:08.312 +03:00 [INF] Hosting environment: Development
+2021-04-14 09:35:08.312 +03:00 [INF] Content root path: C:\app
+2021-04-14 09:35:10.324 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/weatherforecast/evt  
+2021-04-14 09:35:10.332 +03:00 [WRN] Failed to determine the https port for redirect.
+2021-04-14 09:35:10.360 +03:00 [INF] Executing endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-14 09:35:10.416 +03:00 [INF] Route matched with {action = "PostTestEvent", controller = "WeatherForecast"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.String] PostTestEvent() on controller SpareParts.Api.Controllers.WeatherForecastController (SpareParts.Api).
+2021-04-14 09:35:10.419 +03:00 [WRN] BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+2021-04-14 09:35:11.448 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2021-04-14 09:35:11.467 +03:00 [INF] Executed action SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api) in 1046.9432ms
+2021-04-14 09:35:11.470 +03:00 [INF] Executed endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-14 09:35:11.475 +03:00 [INF] Request finished in 1153.5253ms 200 text/plain; charset=utf-8
+2021-04-14 09:35:11.505 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/favicon.ico  
+2021-04-14 09:35:11.506 +03:00 [INF] Request finished in 1.4709ms 404 
