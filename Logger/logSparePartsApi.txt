@@ -76,3 +76,21 @@ RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified end
 2021-04-14 09:35:11.475 +03:00 [INF] Request finished in 1153.5253ms 200 text/plain; charset=utf-8
 2021-04-14 09:35:11.505 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/favicon.ico  
 2021-04-14 09:35:11.506 +03:00 [INF] Request finished in 1.4709ms 404 
+2021-04-17 16:49:10.635 +03:00 [WRN] Start logger
+2021-04-17 16:49:17.865 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-17 16:49:18.572 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-17 16:49:19.553 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-17 16:49:19.558 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-17 16:49:19.559 +03:00 [INF] Hosting environment: Development
+2021-04-17 16:49:19.559 +03:00 [INF] Content root path: C:\app
+2021-04-17 16:49:50.471 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/weatherforecast/evt  
+2021-04-17 16:49:50.484 +03:00 [WRN] Failed to determine the https port for redirect.
+2021-04-17 16:49:50.512 +03:00 [INF] Executing endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-17 16:49:50.556 +03:00 [INF] Route matched with {action = "PostTestEvent", controller = "WeatherForecast"}. Executing controller action with signature System.Threading.Tasks.Task`1[System.String] PostTestEvent() on controller SpareParts.Api.Controllers.WeatherForecastController (SpareParts.Api).
+2021-04-17 16:49:50.559 +03:00 [WRN] BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+2021-04-17 16:49:52.032 +03:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2021-04-17 16:49:52.067 +03:00 [INF] Executed action SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api) in 1495.0865ms
+2021-04-17 16:49:52.071 +03:00 [INF] Executed endpoint 'SpareParts.Api.Controllers.WeatherForecastController.PostTestEvent (SpareParts.Api)'
+2021-04-17 16:49:52.078 +03:00 [INF] Request finished in 1609.8229ms 200 text/plain; charset=utf-8
+2021-04-17 16:49:52.120 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:82/favicon.ico  
+2021-04-17 16:49:52.121 +03:00 [INF] Request finished in 1.0527ms 404 

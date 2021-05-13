@@ -8,10 +8,10 @@ namespace SpareParts.Application.DTO
 {
     public class VehicleTechSpecificationDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public int VehicleId { get; set; }
-        public Engine Engine { get; set; }
-        public GearBox GearBox { get; set; }
+        public EngineDTO Engine { get; set; }
+        public GearboxDTO GearBox { get; set; }
         public IDictionary<string, string> AdditionalCharacteristics { get; set; }
         public ICollection<SparePartDTO> SpareParts { get; set; }
     }

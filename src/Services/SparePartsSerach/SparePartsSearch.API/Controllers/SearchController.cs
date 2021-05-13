@@ -16,9 +16,6 @@ namespace SparePartsSearch.API.Controllers
         {
             this.searchService = searchService;
         }
-       
-        //TODO: how part name from two words
-
 
         [HttpGet("{partName}/{carCharacteristics}")]
         public async Task<IActionResult> GetSparePartPrice(string partName, string carCharacteristics)

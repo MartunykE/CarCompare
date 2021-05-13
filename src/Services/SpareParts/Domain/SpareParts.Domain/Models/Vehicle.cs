@@ -1,12 +1,14 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+
 namespace SpareParts.Domain.Models
 {
     public class Vehicle
     {
         [BsonId]
-        public int Id { get; set; }
+        public ObjectId Id { get; set; }
         public string ManufacturerName { get; set; }
         public string Model { get; set; }
         public VehicleType VehicleType { get; set; }

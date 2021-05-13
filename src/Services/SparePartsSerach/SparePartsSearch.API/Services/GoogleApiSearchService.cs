@@ -76,11 +76,11 @@ namespace SparePartsSearch.API.Services
                 }               
             }
 
-            return CreatedPrice(highPrices, lowPrices, currency);
+            return CreatePrice(highPrices, lowPrices, currency);
 
         } 
 
-        private SparePartPrices CreatedPrice(IEnumerable<double> highPrices, IEnumerable<double> lowPrices, string currency)
+        private SparePartPrices CreatePrice(IEnumerable<double> highPrices, IEnumerable<double> lowPrices, string currency)
         {
             var maxPrice = highPrices.Max();
             var minPrice = lowPrices.Min();

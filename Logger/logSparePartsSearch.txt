@@ -37,3 +37,9 @@ RabbitMQ.Client.Exceptions.BrokerUnreachableException: None of the specified end
 2021-04-14 09:35:07.781 +03:00 [INF] Application started. Press Ctrl+C to shut down.
 2021-04-14 09:35:07.781 +03:00 [INF] Hosting environment: Development
 2021-04-14 09:35:07.781 +03:00 [INF] Content root path: C:\app
+2021-04-17 16:49:17.882 +03:00 [INF] Rabbit MQ is trying to connect
+2021-04-17 16:49:18.571 +03:00 [INF] RabbitMQ persistent connections to rabbitmq
+2021-04-17 16:49:18.854 +03:00 [INF] Now listening on: http://[::]:80
+2021-04-17 16:49:18.856 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2021-04-17 16:49:18.856 +03:00 [INF] Hosting environment: Development
+2021-04-17 16:49:18.856 +03:00 [INF] Content root path: C:\app

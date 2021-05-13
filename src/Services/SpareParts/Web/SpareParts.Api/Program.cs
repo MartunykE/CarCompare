@@ -2,6 +2,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.Reflection;
 
 namespace SpareParts.Api
 {
@@ -10,7 +11,8 @@ namespace SpareParts.Api
         public static void Main(string[] args)
         {
             Log.Logger = CreateSerilogLogger();
-            Log.Logger.Warning("Start logger");
+            var projectName = Assembly.GetCallingAssembly().GetName();
+            Log.Logger.Information($"------------------{projectName} STARTED--------------");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -19,7 +21,7 @@ namespace SpareParts.Api
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .UseSerilog((context, services, configuration) => configuration
                     .Enrich.FromLogContext()
-                    //.ReadFrom.Services(services)
+                    .ReadFrom.Services(services)
                     .WriteTo.File("/src/Logger/logSparePartsApi.txt")
                     .WriteTo.Console())
                 .ConfigureWebHostDefaults(webBuilder =>

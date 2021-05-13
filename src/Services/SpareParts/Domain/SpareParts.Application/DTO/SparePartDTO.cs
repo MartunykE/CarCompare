@@ -7,7 +7,7 @@ namespace SpareParts.Application.DTO
 {
     public class SparePartDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
         public SparePartPrices Prices { get; set; }
 

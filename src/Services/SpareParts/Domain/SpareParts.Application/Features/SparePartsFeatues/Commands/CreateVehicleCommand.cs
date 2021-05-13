@@ -1,23 +1,125 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using SpareParts.Application.DTO;
+using SpareParts.Application.Interfaces;
+using SpareParts.Domain.Models;
+using SpareParts.Domain.Models.VehicleTechSpecification;
 using System.Threading;
 using System.Threading.Tasks;
+using MongoDB.Driver.Linq;
+using System.Linq;
+using SpareParts.Application.Extentions;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using Serilog;
+using System;
+using SpareParts.Application.IntegrationEvents;
+using SpareParts.Application.IntegrationEvents.Services;
 
 namespace SpareParts.Application.Features.SparePartsFeatues.Commands
 {
-    public class CreateVehicleCommand : IRequest<int>
+    public class CreateVehicleCommand : IRequest<string>
     {
+        public VehicleDTO vehicleDTO { get; }
 
-
-
-        class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, int>
+        public CreateVehicleCommand(VehicleDTO vehicleDTO)
         {
-            public Task<int> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
-            {
-                throw new NotImplementedException();
-            }
+            this.vehicleDTO = vehicleDTO;
+            vehicleDTO.VehicleTechSpecification.SpareParts.AddDefaultSpareParts();
         }
+
+        class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, string>
+        {
+            private readonly ISparePartsDbContext sparePartsDbContext;
+            private readonly IMediator mediator;
+            private readonly ILogger logger;
+            private readonly IClientSessionHandle clientSessionHandle;
+            private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;
+
+
+            public CreateVehicleCommandHandler(ISparePartsDbContext sparePartsDbContext, IMediator mediator, ILogger logger, IClientSessionHandle clientSessionHandle, ISparePartsIntegrationEventService sparePartsIntegrationEventService)
+            {
+                this.mediator = mediator;
+                this.sparePartsDbContext = sparePartsDbContext;
+                this.logger = logger;
+                this.clientSessionHandle = clientSessionHandle;
+                this.sparePartsIntegrationEventService = sparePartsIntegrationEventService;
+            }
+
+            public async Task<string> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
+            {
+                var vehicleDTO = request.vehicleDTO;
+
+                var vehicle = MapDtoToVehicle(vehicleDTO);
+
+                var existingVehicles = await sparePartsDbContext.Vehicles.FindAsync(vehicle.ToBsonDocument());
+
+                if (existingVehicles.Any())
+                {
+                    return null;
+                }
+
+                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicleDTO.VehicleTechSpecification.SpareParts);
+
+                clientSessionHandle.StartTransaction();
+
+                try
+                {                     
+                    await sparePartsDbContext.Vehicles.InsertOneAsync(vehicle);
+                    await sparePartsIntegrationEventService.PublishThroughEventBusAsync(askForSparePartsEvent);
+                    await clientSessionHandle.CommitTransactionAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.Information($"Can`t write to db vehicle: {vehicle.ToJson()} Exception: {ex.Message}");
+                    
+                    await clientSessionHandle.AbortTransactionAsync();
+                    return null;         
+                }
+
+
+                return vehicle.Id.ToString();
+            }
+
+            private Vehicle MapDtoToVehicle(VehicleDTO vehicleDTO)
+            {
+                //TODO: Add validation for null
+                var vehicle = new Vehicle
+                {
+                    Id = new ObjectId(),
+                    Model = vehicleDTO.Model,
+                    VehicleType = vehicleDTO.VehicleType,
+                    Generation = vehicleDTO.Generation,
+                    ManufacturerName = vehicleDTO.ManufacturerName,
+                    StartProductionYear = vehicleDTO.StartProductionYear,
+                    EndProductionYear = vehicleDTO.EndProductionYear,
+                };
+                vehicle.VehicleTechSpecifications.Add(new VehicleTechSpecification
+                {
+                    Id = new ObjectId(),
+                    Engine = new Engine
+                    {
+                        Id = new ObjectId(),
+                        Name = vehicleDTO.VehicleTechSpecification.Engine.Name,
+                        EngineCapacity = vehicleDTO.VehicleTechSpecification.Engine.EngineCapacity,
+                        HorsePowers = vehicleDTO.VehicleTechSpecification.Engine.HorsePowers,
+                        Petrol = vehicleDTO.VehicleTechSpecification.Engine.Petrol
+                    },
+                    GearBox = new GearBox
+                    {
+                        Id = new ObjectId(),
+                        Name = vehicleDTO.VehicleTechSpecification.GearBox.Name,
+                        GearBoxType = vehicleDTO.VehicleTechSpecification.GearBox.GearBoxType,
+                        GearsCount = vehicleDTO.VehicleTechSpecification.GearBox.GearsCount
+                    },
+                    AdditionalCharacteristics = vehicleDTO.VehicleTechSpecification.AdditionalCharacteristics,
+                   
+                });
+
+                return vehicle;
+            }
+
+
+        }
+
     }
 }

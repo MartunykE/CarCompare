@@ -1,15 +1,14 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SpareParts.Domain.Models.VehicleTechSpecification
 {
     public class VehicleTechSpecification
     {
         [BsonId]
-        public int Id { get; set; }
-        public int VehicleId { get; set; }
+        public ObjectId Id { get; set; }
         public Engine Engine { get; set; }
         public GearBox GearBox { get; set; }
         public IDictionary<string, string> AdditionalCharacteristics { get; set; }

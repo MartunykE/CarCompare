@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpareParts.Application.IntegrationEvents
+namespace SpareParts.Application.IntegrationEvents.Services
 {
     public interface ISparePartsIntegrationEventService
     {
-        Task SaveEventAndCatalogContextChangesAsync(IntegrationEvent evt);
         Task PublishThroughEventBusAsync(IntegrationEvent evt);
     }
 }

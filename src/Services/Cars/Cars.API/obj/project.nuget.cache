@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "u2Xrn8kjv2CS/XcvdugWTt6zn3ApHxaTPd1tr09078GX9YtYKJuqmOdA4da26thSB9sJknp56JhkuUqKD5oCiw==",
+  "dgSpecHash": "WYiHV/gBNQcZBP/BDQHgQvlqfECkLXf7lKxEAvHoU8fV0wOcny3Hiz7RyrFtlpeSAh0PyI/+PNxL7u6xy6l1Tg==",
   "success": true,
   "projectFilePath": "C:\\Users\\realp\\source\\repos\\CarCompare\\src\\Services\\Cars\\Cars.API\\Cars.API.csproj",
   "expectedPackageFiles": [
@@ -105,7 +105,8 @@
     "C:\\Users\\realp\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\realp\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\realp\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\realp\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
+    "C:\\Users\\realp\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
+    "C:\\Users\\realp\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.13\\microsoft.netcore.app.host.win-x64.3.1.13.nupkg.sha512"
   ],
   "logs": [
     {

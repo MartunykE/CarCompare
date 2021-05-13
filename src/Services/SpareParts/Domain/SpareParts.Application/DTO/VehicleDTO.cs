@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SpareParts.Application.DTO
 {
-    class VehicleDTO
+    public class VehicleDTO
     {
         public int Id { get; set; }
         public string ManufacturerName { get; set; }
@@ -15,6 +15,6 @@ namespace SpareParts.Application.DTO
         public int? Generation { get; set; }
         public DateTime StartProductionYear { get; set; }
         public DateTime? EndProductionYear { get; set; }
-        public ICollection<VehicleTechSpecificationDTO> VehicleTechSpecifications { get; set; }
+        public VehicleTechSpecificationDTO VehicleTechSpecification { get; set; }
     }
 }

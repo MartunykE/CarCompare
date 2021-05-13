@@ -8,7 +8,6 @@ namespace SpareParts.Application.Interfaces
     public interface ISparePartsDbContext
     {
         IMongoCollection<Vehicle> Vehicles { get; }
-        IMongoCollection<VehicleTechSpecification> VehicleTechSpecifications { get; }
 
     }
 }
