@@ -15,12 +15,10 @@ namespace SpareParts.Persistence.SparePartsContext
     public class SparePartsDbContext : ISparePartsDbContext
     {
         private readonly IMongoDatabase database;
-        public SparePartsDbContext(string connectionString)
+        public SparePartsDbContext(IMongoClient mongoClient)
         {
-            var client = new MongoClient(connectionString);
-            database = client.GetDatabase("VehicleSparePartsDb");
+            database = mongoClient.GetDatabase("VehicleSparePartsDb");
             ConfigureVehiclesCollection();
-
         }
 
 
@@ -28,6 +26,7 @@ namespace SpareParts.Persistence.SparePartsContext
 
         private void ConfigureVehiclesCollection()
         {
+            //database.CreateCollection("Vehicles");
             var vehicleIndexDefinition = Builders<Vehicle>.IndexKeys.Combine(
                 Builders<Vehicle>.IndexKeys.Ascending(v => v.ManufacturerName),
                 Builders<Vehicle>.IndexKeys.Ascending(v => v.Model),
@@ -54,7 +53,7 @@ namespace SpareParts.Persistence.SparePartsContext
 
             var indexModel = new CreateIndexModel<Vehicle>(indexDefinition, indexOptions);
 
-            database.GetCollection<Vehicle>("Vehicles").Indexes.CreateOne(indexModel);
+            Vehicles.Indexes.CreateOne(indexModel);
         }
 
 

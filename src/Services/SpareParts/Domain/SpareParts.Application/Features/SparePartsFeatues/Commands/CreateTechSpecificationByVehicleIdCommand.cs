@@ -33,18 +33,16 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
             private readonly ISparePartsDbContext sparePartsDbContext;
             private readonly ILogger logger;
             private readonly IMediator mediator;
-            private readonly IClientSessionHandle clientSessionHandle;
             private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;
             public CreateTechSpecificationByVehicleIdCommandHandler(
-                ISparePartsDbContext sparePartsDbContext, 
-                ILogger logger, IMediator mediator, 
-                IClientSessionHandle clientSessionHandle,
+                ISparePartsDbContext sparePartsDbContext,
+                ILogger logger, 
+                IMediator mediator,
                 ISparePartsIntegrationEventService sparePartsIntegrationEventService)
             {
                 this.logger = logger;
                 this.sparePartsDbContext = sparePartsDbContext;
                 this.mediator = mediator;
-                this.clientSessionHandle = clientSessionHandle;
                 this.sparePartsIntegrationEventService = sparePartsIntegrationEventService;
             }
 
@@ -69,23 +67,26 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
 
                 var vehicleTechSpecificationUpdateDefinition = Builders<Vehicle>.Update.Push(v => v.VehicleTechSpecifications, vehicleTechSpecifictaion);
 
-                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(request.VehicleTechSpecificationDTO.SpareParts);
+                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(request.VehicleId, request.VehicleTechSpecificationDTO.SpareParts);
 
-                clientSessionHandle.StartTransaction();
-
-                try
+                using (var session = await sparePartsDbContext.Vehicles.Database.Client.StartSessionAsync())
                 {
-                    await sparePartsDbContext.Vehicles.UpdateOneAsync(filter, vehicleTechSpecificationUpdateDefinition);
-                    await sparePartsIntegrationEventService.PublishThroughEventBusAsync(askForSparePartsEvent);
-                    await clientSessionHandle.CommitTransactionAsync();
+                    session.StartTransaction();
 
-                    return vehicleTechSpecifictaion.Id.ToString();
-                }
-                catch (Exception ex)
-                {
-                    logger.Information($"Can`t create vehicle tech specification : {vehicleTechSpecifictaion.ToJson()}. Exception: {ex.Message}");
-                    clientSessionHandle.AbortTransaction();
-                    return null;
+                    try
+                    {
+                        await sparePartsDbContext.Vehicles.UpdateOneAsync(filter, vehicleTechSpecificationUpdateDefinition);
+                        await sparePartsIntegrationEventService.PublishThroughEventBusAsync(askForSparePartsEvent);
+                        await session.CommitTransactionAsync();
+
+                        return vehicleTechSpecifictaion.Id.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Information($"Can`t create vehicle tech specification : {vehicleTechSpecifictaion.ToJson()}. Exception: {ex.Message}");
+                        session.AbortTransaction();
+                        return null;
+                    }
                 }
 
             }

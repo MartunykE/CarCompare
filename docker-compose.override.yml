@@ -22,10 +22,19 @@ services:
     ports:
       - "82:80"
       
-
+  
+  spareparts.api.mongo1:
+    hostname: spareparts.api.mongo1
+    container_name: spareparts.api.localmongo1
+    image: mongo
+    expose:
+      - 27017
+    ports:
+      - 27017:27017
+    restart: always
+    command: [ "mongod", "--replSet", "rs0", "--dbpath", "/data/db","--bind_ip_all",]
 
   rabbitmq:
     ports:
     - "15672:15672"
     - "5672:5672"
-  

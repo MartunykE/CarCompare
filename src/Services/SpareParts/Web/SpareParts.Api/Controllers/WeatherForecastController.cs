@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using SpareParts.Application.IntegrationEvents;
+using SpareParts.Application.IntegrationEvents.Services;
 using SpareParts.Application.Interfaces;
 
 namespace SpareParts.Api.Controllers

@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog;
 using SpareParts.Application;
-using SpareParts.Application.IntegrationEvents;
+using SpareParts.Application.IntegrationEvents.Services;
 using SpareParts.Persistence;
 namespace SpareParts.Api
 {
@@ -37,8 +37,8 @@ namespace SpareParts.Api
             services.AddPersistance(Configuration);
             services.AddControllers();
             services.AddIntegrationServices(Configuration);
-            services.AddEventBus(Configuration);            
-
+            services.AddEventBus(Configuration);
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +47,14 @@ namespace SpareParts.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SpareParts API");
+                    c.RoutePrefix = string.Empty;
+                });
             }
+            
 
             loggerFactory.CreateLogger<Startup>();
 

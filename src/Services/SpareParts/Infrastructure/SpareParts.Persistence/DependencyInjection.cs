@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using SpareParts.Application.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using SpareParts.Persistence.SparePartsContext;
+
 namespace SpareParts.Persistence
 {
     public static class DependencyInjection
@@ -12,9 +11,15 @@ namespace SpareParts.Persistence
         public static void AddPersistance(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             string dbConnectionString = configuration.GetConnectionString("VehicleSparePartsDb");
-            
-            serviceCollection.AddTransient<ISparePartsDbContext, SparePartsDbContext>(
-                provider => new SparePartsDbContext(dbConnectionString));
+
+            serviceCollection.AddScoped<IMongoClient>(c =>
+            {
+                return new MongoClient(dbConnectionString);
+            });
+
+            serviceCollection.AddScoped<ISparePartsDbContext, SparePartsDbContext>();
+
+            serviceCollection.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
         }
     }
 }

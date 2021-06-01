@@ -1,10 +1,9 @@
 version: '3.4'
 
 services:
-
+  
   sparepartssearch.api:
     image: ${DOCKER_REGISTRY-}sparepartssearchapi
-
     build:
       context: .
       dockerfile: src\Services\SparePartsSerach\SparePartsSearch.API\Dockerfile
@@ -21,8 +20,7 @@ services:
     image: ${DOCKER_REGISTRY-}carsapi
     environment:
     - SparepartsApiURL=http://spareparts.api
-    - SparepartsSearchURL=http://sparepartssearch.api 
-        
+    - SparepartsSearchURL=http://sparepartssearch.api        
     build:
       context: .
       dockerfile: src\Services\Cars\Cars.API\Dockerfile
@@ -33,9 +31,16 @@ services:
     - SparepartsSearchURL=http://sparepartssearch.api 
     volumes:
     - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
-
     build:
       context: .
       dockerfile: src\Services\SpareParts\Web\SpareParts.Api\Dockerfile
     depends_on:
     - rabbitmq
+    - spareparts.api.mongo1
+  
+  spareparts.api.mongo1:
+    image: mongo
+    volumes:
+      - ./volumes/mongodb/mongo/data1/db:C:/data/db
+      - ./volumes/mongodb/mongo/data1/configdb:C:/etc/mongod.conf
+ 

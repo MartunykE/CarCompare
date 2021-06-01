@@ -30,15 +30,12 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
         class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, string>
         {
             private readonly ISparePartsDbContext sparePartsDbContext;
-            private readonly IMediator mediator;
             private readonly ILogger logger;
             private readonly IClientSessionHandle clientSessionHandle;
             private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;
 
-
-            public CreateVehicleCommandHandler(ISparePartsDbContext sparePartsDbContext, IMediator mediator, ILogger logger, IClientSessionHandle clientSessionHandle, ISparePartsIntegrationEventService sparePartsIntegrationEventService)
+            public CreateVehicleCommandHandler(ISparePartsDbContext sparePartsDbContext, ILogger logger, ISparePartsIntegrationEventService sparePartsIntegrationEventService, IClientSessionHandle clientSessionHandle)
             {
-                this.mediator = mediator;
                 this.sparePartsDbContext = sparePartsDbContext;
                 this.logger = logger;
                 this.clientSessionHandle = clientSessionHandle;
@@ -51,19 +48,25 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
 
                 var vehicle = MapDtoToVehicle(vehicleDTO);
 
-                var existingVehicles = await sparePartsDbContext.Vehicles.FindAsync(vehicle.ToBsonDocument());
+                var allvehicles = await sparePartsDbContext.Vehicles.FindAsync(new BsonDocument());
+
+                var a = allvehicles.ToList();
+                var existingVehicles = await sparePartsDbContext.Vehicles.FindAsync(v => 
+                    v.ManufacturerName == vehicle.ManufacturerName && 
+                    v.Model == vehicle.Model && 
+                    v.Generation == vehicle.Generation);
 
                 if (existingVehicles.Any())
                 {
-                    return null;
+                    return existingVehicles.FirstOrDefault().Id.ToString();
                 }
 
-                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicleDTO.VehicleTechSpecification.SpareParts);
+                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicle.Id.ToString(), vehicleDTO.VehicleTechSpecification.SpareParts);
 
                 clientSessionHandle.StartTransaction();
 
                 try
-                {                     
+                {
                     await sparePartsDbContext.Vehicles.InsertOneAsync(vehicle);
                     await sparePartsIntegrationEventService.PublishThroughEventBusAsync(askForSparePartsEvent);
                     await clientSessionHandle.CommitTransactionAsync();
@@ -71,11 +74,10 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                 catch (Exception ex)
                 {
                     logger.Information($"Can`t write to db vehicle: {vehicle.ToJson()} Exception: {ex.Message}");
-                    
-                    await clientSessionHandle.AbortTransactionAsync();
-                    return null;         
-                }
 
+                    await clientSessionHandle.AbortTransactionAsync();
+                    return null;
+                }
 
                 return vehicle.Id.ToString();
             }
@@ -85,7 +87,7 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                 //TODO: Add validation for null
                 var vehicle = new Vehicle
                 {
-                    Id = new ObjectId(),
+                    Id = ObjectId.GenerateNewId(),
                     Model = vehicleDTO.Model,
                     VehicleType = vehicleDTO.VehicleType,
                     Generation = vehicleDTO.Generation,
@@ -95,7 +97,7 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                 };
                 vehicle.VehicleTechSpecifications.Add(new VehicleTechSpecification
                 {
-                    Id = new ObjectId(),
+                    Id = ObjectId.GenerateNewId(),
                     Engine = new Engine
                     {
                         Id = new ObjectId(),
@@ -106,13 +108,13 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                     },
                     GearBox = new GearBox
                     {
-                        Id = new ObjectId(),
+                        Id = ObjectId.GenerateNewId(),
                         Name = vehicleDTO.VehicleTechSpecification.GearBox.Name,
                         GearBoxType = vehicleDTO.VehicleTechSpecification.GearBox.GearBoxType,
                         GearsCount = vehicleDTO.VehicleTechSpecification.GearBox.GearsCount
                     },
                     AdditionalCharacteristics = vehicleDTO.VehicleTechSpecification.AdditionalCharacteristics,
-                   
+
                 });
 
                 return vehicle;

@@ -38,14 +38,10 @@ msbuild.wrn
 
 #files
 
-
-
 src/Services/SparePartsSerach/SparePartsSearch.API/appsettings.json
 
-
-
-
-
+volumes
+Logger
 
 
 .DS_STORE

@@ -8,7 +8,7 @@ namespace SpareParts.Application.DTO
 {
     public class VehicleDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public string ManufacturerName { get; set; }
         public string Model { get; set; }
         public VehicleType VehicleType { get; set; }
