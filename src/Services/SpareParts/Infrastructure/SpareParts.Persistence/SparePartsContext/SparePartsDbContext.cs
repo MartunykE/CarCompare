@@ -24,6 +24,11 @@ namespace SpareParts.Persistence.SparePartsContext
 
         public IMongoCollection<Vehicle> Vehicles => database.GetCollection<Vehicle>("Vehicles");
 
+        public Task Get()
+        {
+            throw new NotImplementedException();
+        }
+
         private void ConfigureVehiclesCollection()
         {
             //database.CreateCollection("Vehicles");

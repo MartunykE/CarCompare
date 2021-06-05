@@ -8,6 +8,6 @@ namespace SpareParts.Application.Interfaces
     public interface ISparePartsDbContext
     {
         IMongoCollection<Vehicle> Vehicles { get; }
-
+        Task Get();
     }
 }

@@ -49,12 +49,12 @@ namespace SpareParts.Api.Controllers
             logger.Information($"Sending CreateVehicleCommand with parameters {vehicleDTO.ManufacturerName} {vehicleDTO.Model} {vehicleDTO.Generation}");
             var createdVehicleId = await mediator.Send(createVehicleCommand);
 
-            if (createdVehicleId == null)
+            if (createdVehicleId.HasNoValue)
             {
                 return BadRequest($"Cannot create vehicle");
             }
 
-            return Created("", createdVehicleId);
+            return Created("", createdVehicleId.Value);
 
         }
 

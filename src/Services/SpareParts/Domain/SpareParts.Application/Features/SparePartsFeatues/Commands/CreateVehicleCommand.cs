@@ -14,10 +14,11 @@ using Serilog;
 using System;
 using SpareParts.Application.IntegrationEvents;
 using SpareParts.Application.IntegrationEvents.Services;
+using CSharpFunctionalExtensions;
 
 namespace SpareParts.Application.Features.SparePartsFeatues.Commands
 {
-    public class CreateVehicleCommand : IRequest<string>
+    public class CreateVehicleCommand : IRequest<Maybe<string>>
     {
         public VehicleDTO vehicleDTO { get; }
 
@@ -27,7 +28,7 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
             vehicleDTO.VehicleTechSpecification.SpareParts.AddDefaultSpareParts();
         }
 
-        class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, string>
+        public class CreateVehicleCommandHandler : IRequestHandler<CreateVehicleCommand, Maybe<string>>
         {
             private readonly ISparePartsDbContext sparePartsDbContext;
             private readonly ILogger logger;
@@ -42,23 +43,22 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                 this.sparePartsIntegrationEventService = sparePartsIntegrationEventService;
             }
 
-            public async Task<string> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
+            public async Task<Maybe<string>> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
             {
                 var vehicleDTO = request.vehicleDTO;
 
                 var vehicle = MapDtoToVehicle(vehicleDTO);
 
-                var allvehicles = await sparePartsDbContext.Vehicles.FindAsync(new BsonDocument());
-
-                var a = allvehicles.ToList();
-                var existingVehicles = await sparePartsDbContext.Vehicles.FindAsync(v => 
-                    v.ManufacturerName == vehicle.ManufacturerName && 
-                    v.Model == vehicle.Model && 
+                var existingVehiclesCursor = await sparePartsDbContext.Vehicles.FindAsync(v =>
+                    v.ManufacturerName == vehicle.ManufacturerName &&
+                    v.Model == vehicle.Model &&
                     v.Generation == vehicle.Generation);
+                
+                var existingVehicle = await existingVehiclesCursor.ToListAsync();
 
-                if (existingVehicles.Any())
+                if (existingVehicle.Count > 0)
                 {
-                    return existingVehicles.FirstOrDefault().Id.ToString();
+                    return existingVehicle.FirstOrDefault().Id.ToString();
                 }
 
                 var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicle.Id.ToString(), vehicleDTO.VehicleTechSpecification.SpareParts);
@@ -114,7 +114,7 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                         GearsCount = vehicleDTO.VehicleTechSpecification.GearBox.GearsCount
                     },
                     AdditionalCharacteristics = vehicleDTO.VehicleTechSpecification.AdditionalCharacteristics,
-
+                     
                 });
 
                 return vehicle;
