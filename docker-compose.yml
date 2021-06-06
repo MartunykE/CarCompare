@@ -16,15 +16,6 @@ services:
     image: spring2/rabbitmq
     hostname: my-rabbit
 
-  cars.api:
-    image: ${DOCKER_REGISTRY-}carsapi
-    environment:
-    - SparepartsApiURL=http://spareparts.api
-    - SparepartsSearchURL=http://sparepartssearch.api        
-    build:
-      context: .
-      dockerfile: src\Services\Cars\Cars.API\Dockerfile
-
   spareparts.api:
     image: ${DOCKER_REGISTRY-}sparepartsapi
     environment:
