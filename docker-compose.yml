@@ -13,7 +13,7 @@ services:
     - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
   
   rabbitmq:
-    image: micdenny/rabbitmq-windows
+    image: spring2/rabbitmq
     hostname: my-rabbit
 
   cars.api:
