@@ -10,18 +10,18 @@ services:
     depends_on:
     - rabbitmq
     volumes:
-    - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
+    - ./volumes/Logs:C:\src\Logger
   
   rabbitmq:
-    image: spring2/rabbitmq
-    hostname: my-rabbit
+    image: micdenny/rabbitmq-windows
+    hostname: rabbitmq
 
   spareparts.api:
     image: ${DOCKER_REGISTRY-}sparepartsapi
     environment:
     - SparepartsSearchURL=http://sparepartssearch.api 
     volumes:
-    - C:\Users\realp\source\repos\CarCompare\Logger:C:\src\Logger
+    - ./volumes/Logs:C:\src\Logger
     build:
       context: .
       dockerfile: src\Services\SpareParts\Web\SpareParts.Api\Dockerfile
@@ -32,6 +32,6 @@ services:
   spareparts.api.mongo1:
     image: mongo
     volumes:
-      - ./volumes/mongodb/mongo/data1/db:C:/data/db
-      - ./volumes/mongodb/mongo/data1/configdb:C:/etc/mongod.conf
+      - ./volumes/mongodb/mongo/spareparts-api/db:C:/data/db
+      - ./volumes/mongodb/mongo/spareparts-api/configdb:C:/etc/mongod.conf
  
