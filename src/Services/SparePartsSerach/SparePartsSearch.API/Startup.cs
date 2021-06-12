@@ -86,6 +86,7 @@ namespace SparePartsSearch.API
                     Password = configuration["EventBusPassword"],
                     RequestedConnectionTimeout = TimeSpan.FromSeconds(5),
                     Port = int.Parse(configuration["EventBusPort"]),
+                    DispatchConsumersAsync = true,
                 };
                 var retryCount = 5;
                 if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))

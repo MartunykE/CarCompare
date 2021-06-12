@@ -153,14 +153,14 @@ namespace EventBusRabbitMQ
                 return;
             }
 
-            var consumer = new EventingBasicConsumer(consumerChannel);
+            var consumer = new AsyncEventingBasicConsumer(consumerChannel);
             consumer.Received += ConsumerReceivedHandler;
 
             consumerChannel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
 
         }
 
-        private void ConsumerReceivedHandler(object sender, BasicDeliverEventArgs eventArgs)
+        private async Task ConsumerReceivedHandler(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
             var message = Encoding.UTF8.GetString(eventArgs.Body.Span);
@@ -171,7 +171,7 @@ namespace EventBusRabbitMQ
                     throw new InvalidOperationException($"Fake exception requested {message}");
                 }
 
-                ProcessEvent(eventName, message);
+                await ProcessEvent(eventName, message);
             }
             catch (Exception ex)
             {

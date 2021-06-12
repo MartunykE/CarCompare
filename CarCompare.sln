@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{1E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cars", "Cars", "{CF689DF2-11C4-455F-866F-9FD3A9724A33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cars.API", "src\Services\Cars\Cars.API\Cars.API.csproj", "{743B73FA-6F99-40AC-BE73-0CA12E0684EE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpareParts", "SpareParts", "{C0738708-F7EA-4F9C-AAB8-C3BBA070FE0E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SparePartsSearch", "SparePartsSearch", "{35E2E33B-7576-4E35-AD30-C4D6082D682F}"
@@ -41,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventBusRabbitMQ", "src\Eve
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpareParts.Tests", "SpareParts.Tests", "{861C7C09-4275-4313-BBB3-3A1C5F8C0C1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpareParts.Appilation.UnitTests", "src\Services\SpareParts\UnitTests\SpareParts.Appilation.UnitTests\SpareParts.Appilation.UnitTests.csproj", "{FB1363D4-E9BB-4F88-936F-396E4CCC8924}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpareParts.Appilation.UnitTests", "src\Services\SpareParts\UnitTests\SpareParts.Appilation.UnitTests\SpareParts.Appilation.UnitTests.csproj", "{FB1363D4-E9BB-4F88-936F-396E4CCC8924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +47,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{743B73FA-6F99-40AC-BE73-0CA12E0684EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{743B73FA-6F99-40AC-BE73-0CA12E0684EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{743B73FA-6F99-40AC-BE73-0CA12E0684EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{743B73FA-6F99-40AC-BE73-0CA12E0684EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1B425B4-26EF-4D3B-ADE8-51714BF5F5D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1B425B4-26EF-4D3B-ADE8-51714BF5F5D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1B425B4-26EF-4D3B-ADE8-51714BF5F5D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,7 +90,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1EF32B93-B539-4A97-89BF-550A8B6EED0B} = {6C247BFF-20DA-424D-B183-EA75200DBCD9}
 		{CF689DF2-11C4-455F-866F-9FD3A9724A33} = {1EF32B93-B539-4A97-89BF-550A8B6EED0B}
-		{743B73FA-6F99-40AC-BE73-0CA12E0684EE} = {CF689DF2-11C4-455F-866F-9FD3A9724A33}
 		{C0738708-F7EA-4F9C-AAB8-C3BBA070FE0E} = {1EF32B93-B539-4A97-89BF-550A8B6EED0B}
 		{35E2E33B-7576-4E35-AD30-C4D6082D682F} = {1EF32B93-B539-4A97-89BF-550A8B6EED0B}
 		{A1B425B4-26EF-4D3B-ADE8-51714BF5F5D4} = {35E2E33B-7576-4E35-AD30-C4D6082D682F}

@@ -93,6 +93,7 @@ namespace SpareParts.Api
                     Password = configuration["EventBusPassword"],
                     RequestedConnectionTimeout = TimeSpan.FromSeconds(3),
                     Port = int.Parse(configuration["EventBusPort"]),
+                    DispatchConsumersAsync = true,
                 };
                 var retryCount = 5;
                 if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
