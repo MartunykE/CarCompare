@@ -17,6 +17,8 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog;
 using SpareParts.Application;
+using SpareParts.Application.IntegrationEventHandlers;
+using SpareParts.Application.IntegrationEvents;
 using SpareParts.Application.IntegrationEvents.Services;
 using SpareParts.Persistence;
 namespace SpareParts.Api
@@ -75,6 +77,7 @@ namespace SpareParts.Api
         protected void ConfigureEventBus(IApplicationBuilder app)
         {
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
+            eventBus.Subscribe<UpdatedSparePartsPricesForVehicleIntegrationEvent, UpdatedSparePartsPricesForVehicleIntegrationEventHandler>();
             //TODO: subscribe to events
         }
     }
@@ -130,6 +133,7 @@ namespace SpareParts.Api
             services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionManager>();
             services.AddTransient<ISparePartsIntegrationEventService, SparePartsIntegrationEventService>();
             //TOOD: ADD handlers
+            services.AddTransient<UpdatedSparePartsPricesForVehicleIntegrationEventHandler>();
 
             return services;
         }

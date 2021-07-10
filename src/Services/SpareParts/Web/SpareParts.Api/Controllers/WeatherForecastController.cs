@@ -16,8 +16,8 @@ namespace SpareParts.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
-    {       
-        private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;       
+    {
+        private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;
         private readonly ILogger<WeatherForecastController> logger;
 
         public WeatherForecastController(
@@ -33,9 +33,13 @@ namespace SpareParts.Api.Controllers
         {
             logger.LogWarning("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
-            await sparePartsIntegrationEventService.PublishThroughEventBusAsync(new TestIntegrationEvent("Test event hello"));
+            await sparePartsIntegrationEventService.PublishThroughEventBusAsync(new TestIntegrationEvent(new A
+            {
+                Name = " aaaa",
+                Year = 2
+            }));
             return "posted";
-        }    
+        }
 
     }
 }

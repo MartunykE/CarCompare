@@ -52,6 +52,11 @@ namespace SparePartsSearch.API.Services
             var highPrices = new List<double>();
             var lowPrices = new List<double>();
             string currency = "";
+            if (search.Items == null)
+            {
+                //TODO: Handle null
+                return null;
+            }
             foreach (var item in search.Items)
             {
                 var priceNodeName = "aggregateoffer";

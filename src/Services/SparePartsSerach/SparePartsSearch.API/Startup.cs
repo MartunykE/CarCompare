@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using Serilog;
+using SparePartsSearch.API.IntegrationEventHandlers;
 using SparePartsSearch.API.IntegrationEvents;
 using SparePartsSearch.API.Services;
 using SparePartsSearch.API.Services.Abstractions;
@@ -34,7 +35,7 @@ namespace SparePartsSearch.API
         {
             //services.AddTransient<ISearchService, GoogleSearchService>();
             services.AddTransient<ISearchService, GoogleApiSearchService>(options =>
-                new GoogleApiSearchService(Configuration.GetSection("GoogleSearcApiKey").Value, Configuration.GetSection("searchEngineId").Value));
+                new GoogleApiSearchService(Configuration.GetSection("GoogleSearchApiKey").Value, Configuration.GetSection("SearchEngineId").Value));
             services.AddControllers();
             services.AddIntegrationServices(Configuration);
             services.AddEventBus(Configuration);
@@ -69,6 +70,7 @@ namespace SparePartsSearch.API
         {
             var eventBus = applicationBuilder.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<TestIntegrationEvent, TestIntegrationEventHandler>();
+            eventBus.Subscribe<AskForSparePartsPricesIntegrationEvent, AskForSparePartsPricesIntegrationEventHandler>();
         }
     }
 
@@ -123,7 +125,7 @@ namespace SparePartsSearch.API
             services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionManager>();
             //services.AddTransient<ISparePartsIntegrationEventService, SparePartsIntegrationEventService>();
             //TOOD: ADD handlers
-
+            services.AddTransient<AskForSparePartsPricesIntegrationEventHandler>();
             services.AddTransient<TestIntegrationEventHandler>();
 
             return services;

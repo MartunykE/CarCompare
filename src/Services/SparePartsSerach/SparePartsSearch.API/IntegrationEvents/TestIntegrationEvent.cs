@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace SparePartsSearch.API.IntegrationEvents
 {
+    public class A
+    {
+        public string Name { get; set; }
+        public int Year { get; set; }
+    }
     public class TestIntegrationEvent: IntegrationEvent
     {
-        public string Message { get; set; }
+        
+        public A Message { get; set; }
 
-        public TestIntegrationEvent(string message)
+
+        public TestIntegrationEvent(A message)
         {
             Message = message;
         }

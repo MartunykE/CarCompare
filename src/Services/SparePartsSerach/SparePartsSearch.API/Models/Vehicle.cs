@@ -1,12 +1,11 @@
-﻿using SpareParts.Domain.Models;
-using SpareParts.Domain.Models.VehicleTechSpecification;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace SpareParts.Application.DTO
+namespace SparePartsSearch.API.Models
 {
-    public class VehicleDTO
+    public class Vehicle
     {
         public string Id { get; set; }
         public string ManufacturerName { get; set; }
@@ -14,6 +13,6 @@ namespace SpareParts.Application.DTO
         public int? Generation { get; set; }
         public DateTime StartProductionYear { get; set; }
         public DateTime? EndProductionYear { get; set; }
-        public VehicleTechSpecificationDTO VehicleTechSpecification { get; set; }
+        public VehicleTechSpecification VehicleTechSpecification { get; set; }
     }
 }

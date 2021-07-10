@@ -9,10 +9,10 @@ namespace SparePartsSearch.API.IntegrationEvents
 {
     public class AskForSparePartsPricesIntegrationEvent : IntegrationEvent
     {
-        public IEnumerable<SparePart> SpareParts { get; }
-        public AskForSparePartsPricesIntegrationEvent(IEnumerable<SparePart> spareParts)
+        public Vehicle Vehicle { get; set; }
+        public AskForSparePartsPricesIntegrationEvent(Vehicle vehicle)
         {
-            SpareParts = spareParts;
+            Vehicle = vehicle;
         }
     }
 }

@@ -22,8 +22,4 @@
     <ProjectReference Include="..\SpareParts.Domain\SpareParts.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IntegrationEventHandlers\" />
-  </ItemGroup>
-
 </Project>

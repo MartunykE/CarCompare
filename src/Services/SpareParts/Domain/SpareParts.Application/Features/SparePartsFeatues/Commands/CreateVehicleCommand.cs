@@ -15,6 +15,7 @@ using System;
 using SpareParts.Application.IntegrationEvents;
 using SpareParts.Application.IntegrationEvents.Services;
 using CSharpFunctionalExtensions;
+using SpareParts.Application.Mapper;
 
 namespace SpareParts.Application.Features.SparePartsFeatues.Commands
 {
@@ -34,20 +35,24 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
             private readonly ILogger logger;
             private readonly IClientSessionHandle clientSessionHandle;
             private readonly ISparePartsIntegrationEventService sparePartsIntegrationEventService;
+            private readonly VehicleMapper vehicleMapper;
 
-            public CreateVehicleCommandHandler(ISparePartsDbContext sparePartsDbContext, ILogger logger, ISparePartsIntegrationEventService sparePartsIntegrationEventService, IClientSessionHandle clientSessionHandle)
+            public CreateVehicleCommandHandler(ISparePartsDbContext sparePartsDbContext, ILogger logger, ISparePartsIntegrationEventService sparePartsIntegrationEventService, IClientSessionHandle clientSessionHandle, VehicleMapper vehicleMapper)
             {
                 this.sparePartsDbContext = sparePartsDbContext;
                 this.logger = logger;
                 this.clientSessionHandle = clientSessionHandle;
                 this.sparePartsIntegrationEventService = sparePartsIntegrationEventService;
+                this.vehicleMapper = vehicleMapper;
             }
 
             public async Task<Maybe<string>> Handle(CreateVehicleCommand request, CancellationToken cancellationToken)
             {
+                //TODO think about IDs
                 var vehicleDTO = request.vehicleDTO;
+                vehicleDTO.GeneratePopertyIds();
 
-                var vehicle = MapDtoToVehicle(vehicleDTO);
+                var vehicle = vehicleMapper.MapToVehicle(vehicleDTO);
 
                 var existingVehiclesCursor = await sparePartsDbContext.Vehicles.FindAsync(v =>
                     v.ManufacturerName == vehicle.ManufacturerName &&
@@ -61,7 +66,7 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                     return existingVehicle.FirstOrDefault().Id.ToString();
                 }
 
-                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicle.Id.ToString(), vehicleDTO.VehicleTechSpecification.SpareParts);
+                var askForSparePartsEvent = new AskForSparePartsPricesIntegrationEvent(vehicleDTO);
 
                 clientSessionHandle.StartTransaction();
 
@@ -76,52 +81,11 @@ namespace SpareParts.Application.Features.SparePartsFeatues.Commands
                     logger.Information($"Can`t write to db vehicle: {vehicle.ToJson()} Exception: {ex.Message}");
 
                     await clientSessionHandle.AbortTransactionAsync();
-                    return null;
+                    return Maybe<string>.None;
                 }
 
                 return vehicle.Id.ToString();
             }
-
-            private Vehicle MapDtoToVehicle(VehicleDTO vehicleDTO)
-            {
-                //TODO: Add validation for null
-                var vehicle = new Vehicle
-                {
-                    Id = ObjectId.GenerateNewId(),
-                    Model = vehicleDTO.Model,
-                    VehicleType = vehicleDTO.VehicleType,
-                    Generation = vehicleDTO.Generation,
-                    ManufacturerName = vehicleDTO.ManufacturerName,
-                    StartProductionYear = vehicleDTO.StartProductionYear,
-                    EndProductionYear = vehicleDTO.EndProductionYear,
-                };
-                vehicle.VehicleTechSpecifications.Add(new VehicleTechSpecification
-                {
-                    Id = ObjectId.GenerateNewId(),
-                    Engine = new Engine
-                    {
-                        Id = new ObjectId(),
-                        Name = vehicleDTO.VehicleTechSpecification.Engine.Name,
-                        EngineCapacity = vehicleDTO.VehicleTechSpecification.Engine.EngineCapacity,
-                        HorsePowers = vehicleDTO.VehicleTechSpecification.Engine.HorsePowers,
-                        Petrol = vehicleDTO.VehicleTechSpecification.Engine.Petrol
-                    },
-                    GearBox = new GearBox
-                    {
-                        Id = ObjectId.GenerateNewId(),
-                        Name = vehicleDTO.VehicleTechSpecification.GearBox.Name,
-                        GearBoxType = vehicleDTO.VehicleTechSpecification.GearBox.GearBoxType,
-                        GearsCount = vehicleDTO.VehicleTechSpecification.GearBox.GearsCount
-                    },
-                    AdditionalCharacteristics = vehicleDTO.VehicleTechSpecification.AdditionalCharacteristics,
-                     
-                });
-
-                return vehicle;
-            }
-
-
         }
-
     }
 }

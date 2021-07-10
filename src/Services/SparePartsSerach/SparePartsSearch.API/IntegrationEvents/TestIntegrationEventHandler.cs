@@ -11,7 +11,7 @@ namespace SparePartsSearch.API.IntegrationEvents
     {
         public Task Handle(TestIntegrationEvent @event)
         {
-            Debug.WriteLine($"{@event.Message} : MESSAGE");
+            Debug.WriteLine($"{@event.Message.Name} : MESSAGE");
             return Task.CompletedTask;
         }
     }

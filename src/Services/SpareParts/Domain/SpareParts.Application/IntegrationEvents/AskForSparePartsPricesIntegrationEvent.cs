@@ -7,14 +7,12 @@ using System.Text;
 namespace SpareParts.Application.IntegrationEvents
 {
     public class AskForSparePartsPricesIntegrationEvent: IntegrationEvent
-    {
-        //TODO: vehicle Id
-        string vehicleId;
-        IEnumerable<SparePartDTO> spareParts;
-        public AskForSparePartsPricesIntegrationEvent(string vehicleId, IEnumerable<SparePartDTO> spareParts)
+    {      
+        public VehicleDTO Vehicle { get; private set; }
+        public string Msg => "Hi";
+        public AskForSparePartsPricesIntegrationEvent(VehicleDTO vehicle)
         {
-            this.vehicleId = vehicleId;
-            this.spareParts = spareParts;
+            Vehicle = vehicle;
         }
     }
 }

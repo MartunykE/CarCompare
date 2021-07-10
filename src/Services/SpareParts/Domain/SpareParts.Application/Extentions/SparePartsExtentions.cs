@@ -1,4 +1,5 @@
-﻿using SpareParts.Application.DTO;
+﻿using MongoDB.Bson;
+using SpareParts.Application.DTO;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,6 +30,15 @@ namespace SpareParts.Application.Extentions
                     spareParts.Add(new SparePartDTO { Name = name });
                 }
             }
+
+        }
+
+        public static void GeneratePopertyIds(this VehicleDTO vehicleDTO)
+        {
+            ObjectId objectId;
+
+            vehicleDTO.Id = ObjectId.TryParse(vehicleDTO.Id, out objectId) ? objectId.ToString() : ObjectId.GenerateNewId().ToString();
+            vehicleDTO.VehicleTechSpecification.Id = ObjectId.TryParse(vehicleDTO.VehicleTechSpecification.Id, out objectId) ? objectId.ToString() : ObjectId.GenerateNewId().ToString();
 
         }
     }

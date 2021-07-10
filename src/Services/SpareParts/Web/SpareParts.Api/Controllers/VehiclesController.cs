@@ -65,16 +65,16 @@ namespace SpareParts.Api.Controllers
             var createVehicleTechSpecByVehicleIdCommand = new CreateTechSpecificationByVehicleIdCommand(vehicleId, vehicleTechSpecificationDTO);
 
             logger.Information($"Senidng CreateTechSpecificationByVehicleIdCommand for vehicle with id: {vehicleId} " +
-                $"tech specification: Engine: {vehicleTechSpecificationDTO.Engine.Name} Gearbox {vehicleTechSpecificationDTO.GearBox}");
+                $"tech specification: Engine: {vehicleTechSpecificationDTO.Engine.Name} Gearbox {vehicleTechSpecificationDTO.GearBox.Name}");
 
             var vehicleTechSpecId = await mediator.Send(createVehicleTechSpecByVehicleIdCommand);
 
-            if (vehicleTechSpecId == null)
+            if (vehicleTechSpecId.HasNoValue)
             {
                 return BadRequest($"Cannot create vehicle tech specification for vehicle with id {vehicleId}");
             }
 
-            return Ok(vehicleTechSpecId);
+            return Ok(vehicleTechSpecId.Value);
         }
 
 

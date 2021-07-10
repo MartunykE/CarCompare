@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using System.Reflection;
+using SpareParts.Application.Mapper;
 
 namespace SpareParts.Application
 {
@@ -12,6 +13,7 @@ namespace SpareParts.Application
         public static void AddApplication(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddMediatR(Assembly.GetExecutingAssembly());
+            serviceCollection.AddTransient<VehicleMapper>();
         }
     }
 }
