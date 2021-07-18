@@ -9,13 +9,13 @@ using SpareParts.Domain.Models;
 
 namespace SpareParts.Application.Features.SparePartsFeatues.Queries
 {
-    public class GetSparePartsByVehicleQuery : IRequest<IEnumerable<SparePartDTO>>
+    public class GetVehicleByIdQuery : IRequest<VehicleDTO>
     {
-        
 
-        class GetSparePartsByVehicleQueryHandler : IRequestHandler<GetSparePartsByVehicleQuery, IEnumerable<SparePartDTO>>
+
+        class GetSparePartsByVehicleQueryHandler : IRequestHandler<GetVehicleByIdQuery, VehicleDTO>
         {
-            public Task<IEnumerable<SparePartDTO>> Handle(GetSparePartsByVehicleQuery request, CancellationToken cancellationToken)
+            public Task<VehicleDTO> Handle(GetVehicleByIdQuery request, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
             }

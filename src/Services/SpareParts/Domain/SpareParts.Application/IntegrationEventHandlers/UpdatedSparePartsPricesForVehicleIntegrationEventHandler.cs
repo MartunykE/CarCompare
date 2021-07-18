@@ -17,13 +17,11 @@ namespace SpareParts.Application.IntegrationEventHandlers
     public class UpdatedSparePartsPricesForVehicleIntegrationEventHandler : IIntegrationEventHandler<UpdatedSparePartsPricesForVehicleIntegrationEvent>
     {
         private readonly ISparePartsDbContext sparePartsDbContext;
-        private readonly VehicleMapper vehicleMapper;
         private readonly ILogger logger;
 
-        public UpdatedSparePartsPricesForVehicleIntegrationEventHandler(ISparePartsDbContext sparePartsDbContext, VehicleMapper vehicleMapper, ILogger logger)
+        public UpdatedSparePartsPricesForVehicleIntegrationEventHandler(ISparePartsDbContext sparePartsDbContext, ILogger logger)
         {
             this.sparePartsDbContext = sparePartsDbContext;
-            this.vehicleMapper = vehicleMapper;
             this.logger = logger;
         }
         public async Task Handle(UpdatedSparePartsPricesForVehicleIntegrationEvent @event)
@@ -64,8 +62,7 @@ namespace SpareParts.Application.IntegrationEventHandlers
                 Builders<Vehicle>.Filter.Eq(v => v.Id, vehicle.Id),
                 Builders<Vehicle>.Filter.ElemMatch(v => v.VehicleTechSpecifications, a => a.Id == ObjectId.Parse(@event.VehicleTechSpecificationId)));
 
-            await sparePartsDbContext.Vehicles.UpdateOneAsync(filter, update);
-
+            var updateResult = await sparePartsDbContext.Vehicles.UpdateOneAsync(filter, update);
         }
     }
 }

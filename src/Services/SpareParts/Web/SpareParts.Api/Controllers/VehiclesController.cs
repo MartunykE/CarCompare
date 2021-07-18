@@ -8,6 +8,7 @@ using MediatR;
 using SpareParts.Application.Features.SparePartsFeatues.Commands;
 using Serilog;
 using Newtonsoft.Json;
+using SpareParts.Application.Features.SparePartsFeatues.Queries;
 
 namespace SpareParts.Api.Controllers
 {
@@ -41,9 +42,33 @@ namespace SpareParts.Api.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet("Manufacturers/{manufacturerName}/models")]
+        public async Task<IActionResult> GetVehicleModelsByManufacturerName(string manufacturerName)
+        {
+            if (string.IsNullOrEmpty(manufacturerName))
+            {
+                return BadRequest("manufacturer name cannot be empty");
+            }
+
+            logger.Information($"Sending {typeof(GetVehicleModlesByManufacturerQuery).Name} with parameters {manufacturerName}");
+            var vehicleModels = await mediator.Send(new GetVehicleModlesByManufacturerQuery(manufacturerName));
+
+            if (vehicleModels.HasNoValue)
+            {
+                return NotFound($"No models for {manufacturerName} was found");
+            }
+
+            return Ok(vehicleModels.Value);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody]VehicleDTO vehicleDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var createVehicleCommand = new CreateVehicleCommand(vehicleDTO);
 
             logger.Information($"Sending CreateVehicleCommand with parameters {vehicleDTO.ManufacturerName} {vehicleDTO.Model} {vehicleDTO.Generation}");
