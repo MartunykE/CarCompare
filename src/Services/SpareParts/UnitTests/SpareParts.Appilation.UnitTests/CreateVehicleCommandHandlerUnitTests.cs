@@ -249,7 +249,6 @@ namespace SpareParts.Appilation.UnitTests
                         EngineCapacity = 1.6,
                         Petrol = "Gas",
                     },
-                    VehicleId = null,
                     GearBox = new GearboxDTO
                     {
                         Id = null,
