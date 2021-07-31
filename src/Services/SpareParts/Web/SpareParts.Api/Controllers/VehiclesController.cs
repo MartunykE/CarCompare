@@ -14,7 +14,7 @@ namespace SpareParts.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VehiclesController: ControllerBase
+    public class VehiclesController : ControllerBase
     {
         private readonly IMediator mediator;
         private readonly ILogger logger;
@@ -61,8 +61,28 @@ namespace SpareParts.Api.Controllers
             return Ok(vehicleModels.Value);
         }
 
+        [HttpGet("{manufacturerName}/{model}/{generation}/TechSpecifications")]
+        public async Task<IActionResult> GetVehicleTechSpecifications(string manufacturerName, string model, int? genereation)
+        {
+            if (string.IsNullOrEmpty(manufacturerName) || string.IsNullOrEmpty(model))
+            {
+                return BadRequest("Manufacturer name and model has to be specified");
+            }
+         
+            logger.Information($"Sending {typeof(GetVehicleTechSpecificationsByManufacturerModelGenerationQuery).Name} with parameters: {manufacturerName}, {model}, {genereation}");
+
+            var vehicleTechSpecifications = await mediator.Send(new GetVehicleTechSpecificationsByManufacturerModelGenerationQuery(manufacturerName, model, genereation));
+
+            if (vehicleTechSpecifications.HasNoValue)
+            {
+                return NotFound($"No tech specifications for {manufacturerName} {model} {genereation} was found");
+            }
+
+            return Ok(vehicleTechSpecifications.Value);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody]VehicleDTO vehicleDTO)
+        public async Task<IActionResult> CreateVehicle([FromBody] VehicleDTO vehicleDTO)
         {
             if (!ModelState.IsValid)
             {

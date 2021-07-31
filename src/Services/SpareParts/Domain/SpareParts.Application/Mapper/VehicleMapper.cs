@@ -69,5 +69,35 @@ namespace SpareParts.Application.Mapper
                 Prices = s.Prices
             });
         }
+
+        public VehicleTechSpecificationDTO MapToVehicleTechSpecificationDTO(VehicleTechSpecification vehicleTechSpecification)
+        {
+            return new VehicleTechSpecificationDTO
+            {
+                Id = vehicleTechSpecification.Id.ToString(),
+                Engine = new EngineDTO
+                {
+                    Id = vehicleTechSpecification.Id.ToString(),
+                    Name = vehicleTechSpecification.Engine.Name,
+                    EngineCapacity = vehicleTechSpecification.Engine.EngineCapacity,
+                    HorsePowers = vehicleTechSpecification.Engine.HorsePowers,
+                    Petrol = vehicleTechSpecification.Engine.Petrol
+                },
+                GearBox = new GearboxDTO
+                {
+                    Id = vehicleTechSpecification.GearBox.Id.ToString(),
+                    Name = vehicleTechSpecification.GearBox.Name,
+                    GearBoxType = vehicleTechSpecification.GearBox.GearBoxType,
+                    GearsCount = vehicleTechSpecification.GearBox.GearsCount
+                },
+                AdditionalCharacteristics = vehicleTechSpecification.AdditionalCharacteristics,
+                SpareParts = vehicleTechSpecification.SpareParts.Select(part => new SparePartDTO
+                {
+                    Id = part.Id.ToString(),
+                    Name = part.Name,
+                    Prices = part.Prices
+                }).ToList()
+            };
+        }
     }
 }
