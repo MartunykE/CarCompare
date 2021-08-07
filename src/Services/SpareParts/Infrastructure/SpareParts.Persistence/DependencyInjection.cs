@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using SpareParts.Application.Interfaces;
+using SpareParts.Persistence.Migrations.Services;
 using SpareParts.Persistence.SparePartsContext;
 
 namespace SpareParts.Persistence
@@ -20,6 +21,8 @@ namespace SpareParts.Persistence
             serviceCollection.AddScoped<ISparePartsDbContext, SparePartsDbContext>();
 
             serviceCollection.AddScoped(c => c.GetRequiredService<IMongoClient>().StartSession());
+
+            serviceCollection.AddScoped<MongoMigrationService>();
         }
     }
 }

@@ -21,6 +21,8 @@ using SpareParts.Application.IntegrationEventHandlers;
 using SpareParts.Application.IntegrationEvents;
 using SpareParts.Application.IntegrationEvents.Services;
 using SpareParts.Persistence;
+using SpareParts.Persistence.Migrations.Services;
+
 namespace SpareParts.Api
 {
     public class Startup
@@ -56,7 +58,7 @@ namespace SpareParts.Api
                     c.RoutePrefix = string.Empty;
                 });
             }
-            
+
 
             loggerFactory.CreateLogger<Startup>();
 
@@ -71,6 +73,7 @@ namespace SpareParts.Api
                 endpoints.MapControllers();
             });
 
+            ConfigureDatabase(app);
             ConfigureEventBus(app);
         }
 
@@ -79,6 +82,13 @@ namespace SpareParts.Api
             var eventBus = app.ApplicationServices.GetRequiredService<IEventBus>();
             eventBus.Subscribe<UpdatedSparePartsPricesForVehicleIntegrationEvent, UpdatedSparePartsPricesForVehicleIntegrationEventHandler>();
             //TODO: subscribe to events
+        }
+
+        public void ConfigureDatabase(IApplicationBuilder app)
+        {
+            var databaseName = "VehicleSparePartsDb";
+            var migrationsService = app.ApplicationServices.GetRequiredService<MongoMigrationService>();
+            migrationsService.SetupDatabase(databaseName);
         }
     }
 
@@ -129,7 +139,7 @@ namespace SpareParts.Api
 
                 return new EventBusRabbitMQ.EventBusRabbitMQ(rabbitMQPersisentConnection, logger, eventBusSubscriptionManager, lifetimeScope, subscriptionClientName, retryCount);
             });
-            
+
             services.AddSingleton<IEventBusSubscriptionManager, InMemoryEventBusSubscriptionManager>();
             services.AddTransient<ISparePartsIntegrationEventService, SparePartsIntegrationEventService>();
             //TOOD: ADD handlers
